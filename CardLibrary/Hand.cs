@@ -25,16 +25,6 @@ namespace CardLibrary
             myHand.Add(aCard);
         }
 
-        public void add(object obj)
-        {
-            Card aCard = obj as Card;
-
-            if (aCard == null)
-                throw new ArgumentException("Cannot add a non Card type to a hand type.");
-
-            myHand.Add(aCard);
-        }
-
         public void clear()
         {
             myHand.Clear();

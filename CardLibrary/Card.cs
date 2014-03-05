@@ -54,7 +54,7 @@ namespace CardLibrary
 
         public object Clone()
         {
-            return this.MemberwiseClone();
+            return (Card)this.MemberwiseClone();
         }
     }
     #endregion
