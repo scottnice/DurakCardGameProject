@@ -20,6 +20,27 @@ namespace CardLibrary
             myHand.Capacity = STARTING_SIZE;
         }
 
+        /// <summary>
+        /// Removes cards from one hand and copies them to another.
+        /// Scott Nice
+        /// 05/03/2014
+        /// </summary>
+        /// <param name="aHand"></param>
+        public void add(Hand aHand)
+        {
+            for (int i = 0; i < aHand.myHand.Count; ++i)
+                add(aHand.myHand[i].Clone());
+        }
+
+        public void add(object obj)
+        {
+            Card aCard = obj as Card;
+            if (aCard == null)
+                throw new ArgumentException("Cannot add a none card type to a hand.");
+
+            add(aCard);
+        }
+
         public void add(Card aCard)
         {
             myHand.Add(aCard);
