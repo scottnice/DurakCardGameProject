@@ -20,16 +20,13 @@ namespace CardLibrary
         // the list of cards the deck contains
         public List<Card> deck;
 
-        // how many cards in this deck
-        private DeckSize size;
-
         public Deck(DeckSize size = DeckSize.FIFTY_TWO) 
         {
             deck = new List<Card>();
             generateDeck(size);
         }
 
-        public void generateDeck(DeckSize size = DeckSize.FIFTY_TWO)
+        private void generateDeck(DeckSize size = DeckSize.FIFTY_TWO)
         {
             int lowCard;
             
@@ -47,8 +44,6 @@ namespace CardLibrary
             
             // now re-allocate memory
             deck.Capacity = (int)size;
-            
-            this.size = size;
 
             for (int i = (int)Suit.CLUBS; i <= (int)Suit.SPADES; ++i)
             {
@@ -67,13 +62,11 @@ namespace CardLibrary
         public void shuffle()
         {
             Random randGenerator = new Random();
-            int topEnd = (int)size;
             int randomNumber;
 
-            for (int i = (int)size-1; i > 0; --i)
+            for (int i = deck.Count-1; i > 0; --i)
             {
-                randomNumber = randGenerator.Next(topEnd);
-                --topEnd;
+                randomNumber = randGenerator.Next(i);
           
                 Functions.swap<Card>(deck, i, randomNumber);
             }
