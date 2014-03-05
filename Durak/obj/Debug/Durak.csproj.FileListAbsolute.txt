@@ -3,3 +3,9 @@ C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.GameR
 C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.Properties.Resources.resources
 C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.csproj.GenerateResource.Cache
 C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\bin\Debug\Durak.exe.config
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\bin\Debug\Durak.exe
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\bin\Debug\Durak.pdb
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\bin\Debug\DurakProject.dll
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\bin\Debug\DurakProject.pdb
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.exe
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.pdb

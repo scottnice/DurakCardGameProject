@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CardLibrary;
 
 namespace Durak
 {
@@ -11,7 +12,7 @@ namespace Durak
     /// </summary>
     abstract class GenericPlayer
     {
-        Hand hand;
+        internal Hand myHand = new Hand();
 
         void Attack(ref GenericPlayer defender)
         {

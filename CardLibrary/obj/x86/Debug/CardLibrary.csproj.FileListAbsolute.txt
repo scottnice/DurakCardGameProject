@@ -4,3 +4,10 @@ C:\Users\Scott\Documents\GitHub\DurakCardGameProject\DurakProject\obj\x86\Debug\
 C:\Users\Scott\Documents\GitHub\DurakCardGameProject\DurakProject\obj\x86\Debug\CardLibrary.csproj.GenerateResource.Cache
 C:\Users\Scott\Documents\GitHub\DurakCardGameProject\DurakProject\obj\x86\Debug\DurakProject.dll
 C:\Users\Scott\Documents\GitHub\DurakCardGameProject\DurakProject\obj\x86\Debug\DurakProject.pdb
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\CardLibrary\bin\Debug\DurakProject.dll
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\CardLibrary\bin\Debug\DurakProject.pdb
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\CardLibrary\obj\x86\Debug\CardLibrary.csprojResolveAssemblyReference.cache
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\CardLibrary\obj\x86\Debug\Durak.Properties.Resources.resources
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\CardLibrary\obj\x86\Debug\CardLibrary.csproj.GenerateResource.Cache
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\CardLibrary\obj\x86\Debug\DurakProject.dll
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\CardLibrary\obj\x86\Debug\DurakProject.pdb
