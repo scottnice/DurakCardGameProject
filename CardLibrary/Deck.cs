@@ -20,15 +20,13 @@ namespace CardLibrary
         // the list of cards the deck contains
         public List<Card> deck;
 
-        // how many cards in this deck
-        private DeckSize size;
-
         public Deck(DeckSize size = DeckSize.FIFTY_TWO) 
         {
             deck = new List<Card>();
             generateDeck(size);
         }
 
+        #region "Methods"
         public void generateDeck(DeckSize size = DeckSize.FIFTY_TWO)
         {
             int lowCard;
@@ -47,8 +45,6 @@ namespace CardLibrary
             
             // now re-allocate memory
             deck.Capacity = (int)size;
-            
-            this.size = size;
 
             for (int i = (int)Suit.CLUBS; i <= (int)Suit.SPADES; ++i)
             {
@@ -58,6 +54,7 @@ namespace CardLibrary
                 }
             }
         }
+
         /// <summary>
         /// Shuffles the deck using the Fisher-Yates Shuffle Algorithm
         /// Source: http://en.wikipedia.org/wiki/Fisher-Yates_shuffle
@@ -67,13 +64,11 @@ namespace CardLibrary
         public void shuffle()
         {
             Random randGenerator = new Random();
-            int topEnd = (int)size;
             int randomNumber;
 
-            for (int i = (int)size-1; i > 0; --i)
+            for (int i = deck.Count-1; i > 0; --i)
             {
-                randomNumber = randGenerator.Next(topEnd);
-                --topEnd;
+                randomNumber = randGenerator.Next(i);
           
                 Functions.swap<Card>(deck, i, randomNumber);
             }
@@ -84,5 +79,22 @@ namespace CardLibrary
             // clear old deck
             deck.Clear();
         }
+
+        /// <summary>
+        /// Deals one card to a hand of cards.
+        /// Author: Scott Nice
+        /// Date: 05/03/2014
+        /// </summary>
+        /// <param name="aHand"></param>
+        public void deal(Hand aHand)
+        {
+            if (deck.Count > 0)
+            {
+                aHand.add(deck[deck.Count - 1].Clone());
+                deck.RemoveAt(deck.Count - 1);
+            }
+        }
+
+        #endregion
     }
 }
