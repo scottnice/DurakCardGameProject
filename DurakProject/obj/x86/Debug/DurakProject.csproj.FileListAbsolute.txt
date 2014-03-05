@@ -29,3 +29,5 @@ C:\Users\Scott\Documents\Winter 2014\DurakGame\DurakProjectv1.1\DurakProject\Dur
 C:\Users\Scott\Documents\Winter 2014\DurakGame\DurakProjectv1.1\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.csproj.GenerateResource.Cache
 C:\Users\Scott\Documents\Durham Semesters\Winter 2014\DurakGame\DurakProjectv1.1\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.exe
 C:\Users\Scott\Documents\Durham Semesters\Winter 2014\DurakGame\DurakProjectv1.1\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.pdb
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\DurakProject\obj\x86\Debug\DurakProject.exe
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\DurakProject\obj\x86\Debug\DurakProject.pdb

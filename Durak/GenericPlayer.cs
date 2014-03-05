@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CardLibrary
+namespace Durak
 {
     /// <summary>
     /// Represents a basic durak player. Will be used as a base class for the computer

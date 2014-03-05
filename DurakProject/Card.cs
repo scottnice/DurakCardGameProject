@@ -3,17 +3,30 @@ namespace CardLibrary
 {
     public class Card : ICloneable, IComparable
     {
-        // the different suits a card can be
-        public enum Suit { CLUBS, DIAMONDS, HEARTS, SPADES };
-        public enum CardValue {TWO = 2, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE };
-
         // max and min possible card values
         private const int MIN_VALUE = (int)CardValue.TWO;
         private const int MAX_VALUE = (int)CardValue.ACE;
 
-        public Suit mySuit; //public for now
-        public CardValue myValue;
+        private Suit mySuit; //public for now
+        private CardValue myValue;
 
+    #region "Propeties"
+
+        public Suit getSuit
+        {
+            get { return mySuit; }
+        }
+
+        public CardValue getValue
+        {
+            get {return myValue; }
+        }
+
+
+    #endregion
+
+
+    #region "Constructors"
         public Card(Suit aSuit, CardValue cardNum) 
         {
             if ((int)cardNum >= MIN_VALUE && (int)cardNum <= MAX_VALUE)
@@ -24,7 +37,9 @@ namespace CardLibrary
             else
                 throw new System.ArgumentException("Card Value out of range", cardNum.ToString());
         }
+    #endregion
 
+    #region "Methods"
         public int CompareTo(object obj)
         {
             if (obj == null)
@@ -37,9 +52,11 @@ namespace CardLibrary
                 throw new ArgumentException("Cannot compare card to non-card object.");
         }
 
-        public Card Clone()
+        public object Clone()
         {
             return (Card)this.MemberwiseClone();
         }
     }
+    #endregion
+
 }

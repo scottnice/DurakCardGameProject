@@ -50,11 +50,11 @@ namespace CardLibrary
             
             this.size = size;
 
-            for (int i = (int)Card.Suit.CLUBS; i <= (int)Card.Suit.SPADES; ++i)
+            for (int i = (int)Suit.CLUBS; i <= (int)Suit.SPADES; ++i)
             {
-                for (int j = lowCard; j <= (int)Card.CardValue.ACE; ++j)
+                for (int j = lowCard; j <= (int)CardValue.ACE; ++j)
                 {
-                    deck.Add(new Card((Card.Suit)i, (Card.CardValue)j));
+                    deck.Add(new Card((Suit)i, (CardValue)j));
                 }
             }
         }

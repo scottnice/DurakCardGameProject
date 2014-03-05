@@ -5,19 +5,16 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CardLibrary
+namespace Durak
 {
-    public partial class GameRoom : Form
+    public partial class Form1 : Form
     {
-        public GameRoom()
+        public Form1()
         {
             InitializeComponent();
-            List<GenericPlayer> players = new List<GenericPlayer>();  
-            
         }
-
-
     }
 }
