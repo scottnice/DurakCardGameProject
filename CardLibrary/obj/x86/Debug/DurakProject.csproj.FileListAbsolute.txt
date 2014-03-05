@@ -1,0 +1,33 @@
+C:\Users\Scott\Documents\Winter 2014\DurakGAme\DurakProject\DurakProject\obj\x86\Debug\DurakProject.GameRoom.resources
+C:\Users\Scott\Documents\Winter 2014\DurakGAme\DurakProject\DurakProject\obj\x86\Debug\DurakProject.Properties.Resources.resources
+C:\Users\Scott\Documents\Winter 2014\DurakGAme\DurakProject\DurakProject\bin\Debug\DurakProject.exe
+C:\Users\Scott\Documents\Winter 2014\DurakGAme\DurakProject\DurakProject\bin\Debug\DurakProject.pdb
+C:\Users\Scott\Documents\Winter 2014\DurakGAme\DurakProject\DurakProject\obj\x86\Debug\DurakProject.exe
+C:\Users\Scott\Documents\Winter 2014\DurakGAme\DurakProject\DurakProject\obj\x86\Debug\DurakProject.pdb
+C:\Users\Scott\Documents\Winter 2014\DurakGame\DurakProject\DurakProject\obj\x86\Debug\DurakProject.csprojResolveAssemblyReference.cache
+C:\Users\Scott\Documents\Winter 2014\DurakGame\DurakProject\DurakProject\obj\x86\Debug\DurakProject.csproj.GenerateResource.Cache
+C:\Users\My Files\Desktop\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.exe
+C:\Users\My Files\Desktop\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.pdb
+C:\Users\My Files\Desktop\DurakProject\DurakProject\DurakProject\bin\Debug\DurakProject.exe
+C:\Users\My Files\Desktop\DurakProject\DurakProject\DurakProject\bin\Debug\DurakProject.pdb
+C:\Users\My Files\Desktop\DurakProject\DurakProject\DurakProject\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\My Files\Desktop\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.GameRoom.resources
+C:\Users\My Files\Desktop\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.Properties.Resources.resources
+C:\Users\My Files\Desktop\DurakProject\DurakProject\DurakProject\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\My Files\Desktop\DurakProject\DurakProject\DurakProject\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\My Files\Desktop\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.Form1.resources
+C:\Users\Scott\Documents\Winter 2014\DurakGame\DurakProject DON'T WORK ON\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.exe
+C:\Users\Scott\Documents\Winter 2014\DurakGame\DurakProject DON'T WORK ON\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.pdb
+C:\Users\Scott\Documents\Winter 2014\DurakGame\DurakProjectv1.1\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.exe
+C:\Users\Scott\Documents\Winter 2014\DurakGame\DurakProjectv1.1\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.pdb
+C:\Users\Scott\Documents\Winter 2014\DurakGame\DurakProjectv1.1\DurakProject\DurakProject\DurakProject\bin\Debug\DurakProject.exe
+C:\Users\Scott\Documents\Winter 2014\DurakGame\DurakProjectv1.1\DurakProject\DurakProject\DurakProject\bin\Debug\DurakProject.pdb
+C:\Users\Scott\Documents\Winter 2014\DurakGame\DurakProjectv1.1\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.csprojResolveAssemblyReference.cache
+C:\Users\Scott\Documents\Winter 2014\DurakGame\DurakProjectv1.1\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.Form1.resources
+C:\Users\Scott\Documents\Winter 2014\DurakGame\DurakProjectv1.1\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.GameRoom.resources
+C:\Users\Scott\Documents\Winter 2014\DurakGame\DurakProjectv1.1\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.Properties.Resources.resources
+C:\Users\Scott\Documents\Winter 2014\DurakGame\DurakProjectv1.1\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.csproj.GenerateResource.Cache
+C:\Users\Scott\Documents\Durham Semesters\Winter 2014\DurakGame\DurakProjectv1.1\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.exe
+C:\Users\Scott\Documents\Durham Semesters\Winter 2014\DurakGame\DurakProjectv1.1\DurakProject\DurakProject\DurakProject\obj\x86\Debug\DurakProject.pdb
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\DurakProject\obj\x86\Debug\DurakProject.exe
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\DurakProject\obj\x86\Debug\DurakProject.pdb
