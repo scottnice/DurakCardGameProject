@@ -1,0 +1,5 @@
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.csprojResolveAssemblyReference.cache
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.GameRoom.resources
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.Properties.Resources.resources
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.csproj.GenerateResource.Cache
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\bin\Debug\Durak.exe.config
