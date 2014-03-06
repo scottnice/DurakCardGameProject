@@ -44,7 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicRules.cs" />
     <Compile Include="ComputerPlayer.cs" />
+    <Compile Include="DurakGame.cs" />
     <Compile Include="GameRoom.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -53,6 +55,7 @@
     </Compile>
     <Compile Include="GenericPlayer.cs" />
     <Compile Include="HumanPlayer.cs" />
+    <Compile Include="PassingRules.cs" />
     <Compile Include="Program.cs">
       <SubType>
       </SubType>
