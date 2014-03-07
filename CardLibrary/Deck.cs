@@ -1,3 +1,4 @@
+
 ﻿using System;
 using System.Collections.Generic;
 
@@ -76,6 +77,19 @@ namespace CardLibrary
         {
             // clear old deck
             deck.Clear();
+        }
+
+        /// <summary>
+        /// Deal a card to a hand.
+        /// </summary>
+        /// <param name="aHand"></param>
+        public void deal(Hand aHand)
+        {
+            if (deck.Count > 0)
+            {
+                aHand.add(deck[deck.Count - 1].Clone());
+                deck.RemoveAt(deck.Count - 1);
+            }
         }
     }
 }

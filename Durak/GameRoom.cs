@@ -1,3 +1,4 @@
+
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,17 +7,31 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using CardLibrary;
 
 namespace Durak
 {
     public partial class GameRoom : Form
     {
+
         public GameRoom()
         {
             InitializeComponent();
-            List<GenericPlayer> players = new List<GenericPlayer>();  
-            
+          
         }
+
+        private void GameRoom_Load(object sender, EventArgs e)
+        {
+            //Draw all hands
+        }
+
+
+        //Needed events:
+
+
+        //Card click
+
+        
 
 
     }

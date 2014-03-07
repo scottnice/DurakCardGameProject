@@ -1,3 +1,4 @@
+
 ﻿namespace Durak
 {
     partial class GameRoom
@@ -37,6 +38,7 @@
             this.ClientSize = new System.Drawing.Size(1138, 617);
             this.Name = "GameRoom";
             this.Text = "Durak Game";
+            this.Load += new System.EventHandler(this.GameRoom_Load);
             this.ResumeLayout(false);
 
         }

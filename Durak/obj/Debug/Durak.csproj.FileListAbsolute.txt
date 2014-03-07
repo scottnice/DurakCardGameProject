@@ -1,5 +1,25 @@
+<<<<<<< HEAD
 C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.csprojResolveAssemblyReference.cache
 C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.GameRoom.resources
 C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.Properties.Resources.resources
 C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.csproj.GenerateResource.Cache
 C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\bin\Debug\Durak.exe.config
+=======
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\bin\Debug\Durak.exe
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\bin\Debug\Durak.pdb
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\bin\Debug\DurakProject.dll
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\bin\Debug\DurakProject.pdb
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.exe
+C:\Users\Scott\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.pdb
+C:\Users\hahman12\Documents\GitHub\DurakCardGameProject\Durak\bin\Debug\Durak.exe.config
+C:\Users\hahman12\Documents\GitHub\DurakCardGameProject\Durak\bin\Debug\Durak.exe
+C:\Users\hahman12\Documents\GitHub\DurakCardGameProject\Durak\bin\Debug\Durak.pdb
+C:\Users\hahman12\Documents\GitHub\DurakCardGameProject\Durak\bin\Debug\DurakProject.dll
+C:\Users\hahman12\Documents\GitHub\DurakCardGameProject\Durak\bin\Debug\DurakProject.pdb
+C:\Users\hahman12\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.csprojResolveAssemblyReference.cache
+C:\Users\hahman12\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.GameRoom.resources
+C:\Users\hahman12\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.Properties.Resources.resources
+C:\Users\hahman12\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.csproj.GenerateResource.Cache
+C:\Users\hahman12\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.exe
+C:\Users\hahman12\Documents\GitHub\DurakCardGameProject\Durak\obj\Debug\Durak.pdb
+>>>>>>> v1.2
