@@ -6,13 +6,17 @@ namespace CardLibrary
     /// <summary>
     /// Represents a hand of playing cards. A hand of cards is basically a list of 
     /// cards but cannot shuffle or create cards on its own without influence from a deck
-    /// class.
+    /// class or another hand, this is to keep the creation of cards limited to the deck
+    /// so the hands cannot create copies of their owns cards accidentally.
     /// </summary>
     public class Hand
     {
-        private List<Card> myHand;
+        internal List<Card> myHand;
+
         // starting size of a durak hand
         private const int STARTING_SIZE = 6;
+
+        #region "Constructors"
 
         public Hand()
         {
@@ -20,41 +24,53 @@ namespace CardLibrary
             myHand.Capacity = STARTING_SIZE;
         }
 
+        #endregion
+
+        #region "Properties"
+
         /// <summary>
-        /// Removes cards from one hand and copies them to another.
-        /// Scott Nice
-        /// 05/03/2014
+        /// Returns the number of cards in this hand.
+        /// </summary>
+        public int GetCardCount
+        {
+            get { return myHand.Count; }
+        }
+
+        #endregion
+
+
+        #region "Methods"
+
+        /// <summary>
+        /// Gives all cards to another hand and then
+        /// clears all the cards from this hand.
         /// </summary>
         /// <param name="aHand"></param>
-        public void add(Hand aHand)
+        public void giveCardsTo(Hand aHand)
         {
-            for (int i = 0; i < aHand.myHand.Count; ++i)
-                add(aHand.myHand[i].Clone());
+            aHand.myHand.AddRange(myHand);
+            clear();
         }
 
-        public void add(object obj)
-        {
-            Card aCard = obj as Card;
-            if (aCard == null)
-                throw new ArgumentException("Cannot add a none card type to a hand.");
-
-            add(aCard);
-        }
-
-        public void add(Card aCard)
-        {
-            myHand.Add(aCard);
-        }
-
+        /// <summary>
+        /// clears all cards from this hand.
+        /// </summary>
         public void clear()
         {
             myHand.Clear();
         }
 
+        /// <summary>
+        /// Sorts all cards in this hand by suit 
+        /// and then by rank from lowest to highest.
+        /// </summary>
         public void sortLowToHigh()
         {
             myHand.Sort();
         }
+
+        #endregion
+
 
     }
 }
