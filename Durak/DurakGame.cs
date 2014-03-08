@@ -9,6 +9,7 @@ namespace Durak
 {
     class DurakGame
     {
+
         // Game Deck
         Deck myDeck;
 
@@ -20,8 +21,6 @@ namespace Durak
 
         //game over boolean
         protected bool isGameOver;
-
-
 
         public DurakGame(int numberOfCards, int numberOfPlayers ) // needed: Rules Enum
         {
