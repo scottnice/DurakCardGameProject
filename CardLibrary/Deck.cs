@@ -11,9 +11,9 @@ namespace CardLibrary
     public class Deck
     {
         // minimum card face values for each deck size.
-        private const int TWENTY_LOW_VALUE = 10;
-        private const int THIRTY_SIX_LOW_VALUE = 6;
-        private const int FIFTY_TWO_LOW_VALUE = 2;
+        private const CardValue TWENTY_LOW_VALUE = CardValue.TEN;
+        private const CardValue THIRTY_SIX_LOW_VALUE = CardValue.SIX;
+        private const CardValue FIFTY_TWO_LOW_VALUE = CardValue.TWO;
 
         // different deck sizes
         public enum DeckSize { TWENTY = 20, THIRTY_SIX = 36, FIFTY_TWO = 52 }
@@ -25,6 +25,16 @@ namespace CardLibrary
         private DeckSize myDeckSize;
 
         #region "Properties"
+
+        /// <summary>
+        /// Indexer for the hand deck.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public Card this[int index]
+        {
+            get { return deck[index]; }
+        }
 
         /// <summary>
         /// Returns true if the deck is empty of cards.
@@ -77,11 +87,11 @@ namespace CardLibrary
             int lowCard;
             
             if (size == DeckSize.TWENTY)
-                lowCard = TWENTY_LOW_VALUE;   // 10 is the low value in a 20 card deck
+                lowCard = (int)TWENTY_LOW_VALUE;   // 10 is the low value in a 20 card deck
             else if (size == DeckSize.THIRTY_SIX)
-                lowCard = THIRTY_SIX_LOW_VALUE;    // 6 is the low value in a 36 card deck
+                lowCard = (int)THIRTY_SIX_LOW_VALUE;    // 6 is the low value in a 36 card deck
             else if (size == DeckSize.FIFTY_TWO)
-                lowCard = FIFTY_TWO_LOW_VALUE;    // 2 is the low value in a 52 card deck
+                lowCard = (int)FIFTY_TWO_LOW_VALUE;    // 2 is the low value in a 52 card deck
             else
                 throw new System.ArgumentException("Cannot create a deck of size " + (size.ToString()));
             

@@ -64,13 +64,16 @@
             // 
             // CardGameMenu
             // 
+            this.AcceptButton = this.btnStart;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnExit;
             this.ClientSize = new System.Drawing.Size(308, 363);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnSettings);
             this.Controls.Add(this.btnStart);
             this.Name = "CardGameMenu";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CardGameMenu";
             this.ResumeLayout(false);
 

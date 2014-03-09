@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 using CardLibrary;
 
 namespace Durak
@@ -14,14 +15,20 @@ namespace Durak
     abstract class GenericPlayer
     {
         internal Hand myHand = new Hand();
+        internal Point mySeat;
+
+        internal int GetCardCount
+        {
+            get { return myHand.GetCardCount; }
+        }
 
         //maybe Play delegate that handles Attack, DefendBasic, and DefendPassing functions 
-        void Attack(ref GenericPlayer defender)
+        internal virtual void Attack(ref GenericPlayer defender)
         {
         }
 
         
-        bool Defend ()
+        internal virtual bool Defend ()
         {
             bool trumpPlayed = false;
 

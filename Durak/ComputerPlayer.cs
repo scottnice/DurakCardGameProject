@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
+using CardLibrary;
 
 namespace Durak
 {
@@ -10,6 +12,15 @@ namespace Durak
     /// </summary>
     class ComputerPlayer : GenericPlayer
     {
-       
+
+        readonly int DECK_SIZE;
+
+
+        public ComputerPlayer(Point seat, Deck theDeck)
+        {
+            DECK_SIZE = theDeck.GetDeckSize;
+            mySeat = seat;
+        }
+
     }
 }

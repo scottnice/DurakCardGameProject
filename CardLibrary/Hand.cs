@@ -29,6 +29,16 @@ namespace CardLibrary
         #region "Properties"
 
         /// <summary>
+        /// Indexer for the hand class.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public Card this[int index]
+        {
+            get { return myHand[index]; }
+        }
+
+        /// <summary>
         /// Returns the number of cards in this hand.
         /// </summary>
         public int GetCardCount

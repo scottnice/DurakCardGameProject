@@ -1,4 +1,3 @@
-
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,20 +12,43 @@ namespace Durak
 {
     public partial class GameRoom : Form
     {
+        // Constants
+        const int NUMBER_OF_SUITS = 4;
+        const int NUMBER_OF_RANKS = 13;
 
-        int cord0, cord1, cord2, cord3;
-        Rectangle rectCropArea;
+        // number of players in this game
+        readonly int NUMBER_OF_PLAYERS;
+
+        // determines whether the game is AI only
+        private bool isAiGame;
+
+        // the size of the deck for this game of durak
+        Deck.DeckSize myDeckSize;
 
         int[] theCards = new int[51];
 
-        Deck aDeck = new Deck(Deck.DeckSize.FIFTY_TWO);
+        // the playing card deck
+        Deck myDeck;
 
-        PictureBox[] pictureArray = new PictureBox[6];
+        // the players list
+        List<GenericPlayer> myPlayers = new List<GenericPlayer>();
 
-        static Random random = new Random();
+        // the players seating positions for a max of 6 players
+        private Point[] mySeats = new Point[6];
 
-        //   int currentNumbe;
-        // int currentSuit;
+        // the picture box that is used to draw the cards
+        private PictureBox pbDrawArea = new PictureBox();
+
+        // the discarded cards
+        private Hand myDiscardPile = new Hand();
+
+        // the cards currently in play
+        private Hand myPlayedCards = new Hand();
+        
+        // an array of all the card images
+        private Bitmap[,] myCardImages = new Bitmap[NUMBER_OF_SUITS, NUMBER_OF_RANKS];
+        // the image of a flipped card
+        private Bitmap myFlippedCardImage;
 
         const int CARD_END_POSITION_X = 335;
         const int CARD_END_POSITION_Y = 205;
@@ -37,49 +59,19 @@ namespace Durak
         int currentCard = 0;
 
         static int testnum = 0;
-        private void Form1_Load(object sender, EventArgs e)
+
+        #region "Event Handlers"
+
+        private void pbDrawArea_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
-            //Draw all hands
-
-            cord0 = 0;
-            cord1 = 0;
-            cord2 = 79;
-            cord3 = 123;
-
-            for (int i = 0; i < theCards.Length; i++)
-            {
-                theCards[i] = i;
-            }
-            aDeck.shuffle();
-            Image newImage = Image.FromFile((Environment.CurrentDirectory + "\\cards2.png"));
-            Bitmap sourceBitmap = new Bitmap(newImage, 1027, 615); // make constants
-
-            for (int i = 0; i < pictureArray.Length; i++)
-            {
-
-                pictureArray[i] = new PictureBox();
-                Controls.Add(pictureArray[i]);
-
-                // set position and size
-                pictureArray[i].Location = new Point(100 * i + 100, 355);
-                pictureArray[i].Size = new Size(80, 125);
-
-                pictureArray[i].Click += new EventHandler(CardClickHandler);
-
-                cord0 = Convert.ToInt32(aDeck.deck[theCards[i]].getValue) * 79;
-                cord1 = Convert.ToInt32(aDeck.deck[theCards[i]].getSuit) * 123;
-
-                // MessageBox.Show(aDeck.deck[theCards[i]].cardNumber.ToString());
-                //  MessageBox.Show(aDeck.deck[theCards[i]].cardSuit.ToString());
-                rectCropArea = new Rectangle(cord0, cord1, cord2, cord3);
-                pictureArray[i].Image = (Image)sourceBitmap.Clone(rectCropArea, sourceBitmap.PixelFormat);
-
-            }
-            sourceBitmap.Dispose();
+            // Create a local version of the graphics object for the PictureBox.
+            Graphics gfx = e.Graphics;
+            drawPlayers(gfx);
         }
 
-        private void CardClickHandler(object sender, System.EventArgs e)
+        private void CardClickHandler(object sender, System.Windows.Forms.MouseEventArgs e)
         {
+            
             if (!timer1.Enabled)
             {
                 var help = (PictureBox)sender;
@@ -92,6 +84,26 @@ namespace Durak
             }
         }
 
+
+        /// <summary>
+        /// Runs when the form is loaded
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GameRoom_Load(object sender, EventArgs e)
+        {
+             // Dock the PictureBox to the form and set its background to white.
+            pbDrawArea.Dock = DockStyle.Fill;
+            pbDrawArea.BackColor = Color.White;
+            // Connect the Paint event of the PictureBox to the event handler method.
+            pbDrawArea.Paint += new System.Windows.Forms.PaintEventHandler(this.pbDrawArea_Paint);
+            pbDrawArea.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CardClickHandler);
+
+            // Add the PictureBox control to the Form. 
+            this.Controls.Add(pbDrawArea);
+            loadCardImages();
+
+        }
 
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -108,18 +120,100 @@ namespace Durak
             }
         }
 
-        public static void Shuffle(int[] array)
+        private void button3_Click(object sender, EventArgs e)
         {
-            for (int i = array.Length; i > 1; i--)
+            //Image newImage = Durak.Properties.Resources.CardImages;
+            //Bitmap sourceBitmap = new Bitmap(newImage, 1027, 615); // make constants
+
+
+            //PictureBox newPictureBox = new PictureBox();
+            //Controls.Add(newPictureBox);
+
+            //// set position and size
+            //newPictureBox.Location = new Point(100 * currentCard + 100, 355);
+            //newPictureBox.Size = new Size(80, 125);
+
+            //newPictureBox.Click += new EventHandler(CardClickHandler);
+
+            //cord0 = Convert.ToInt32(aDeck.deck[theCards[currentCard]].getValue) * 79;
+            //cord1 = Convert.ToInt32(aDeck.deck[theCards[currentCard]].getSuit) * 123;
+
+
+            ////  MessageBox.Show(aDeck.deck[theCards[currentCard]].getValue.ToString());
+            //// MessageBox.Show(aDeck.deck[theCards[currentCard]].getSuit.ToString());
+
+            //rectCropArea = new Rectangle(cord0, cord1, cord2, cord3);
+            //newPictureBox.Image = (Image)sourceBitmap.Clone(rectCropArea, sourceBitmap.PixelFormat);
+
+            //currentCard++;
+            //sourceBitmap.Dispose();
+        }
+
+        #endregion
+
+        #region "Methods"
+        private void loadCardImages()
+        {
+            // constants
+            const float CARD_WIDTH = 1025f/13f;
+            const int CARD_HEIGHT = 123;
+
+            // declarations
+
+            // used to crop the bitmap images
+            RectangleF rectCropArea;
+
+            // location of the flipped card
+            Rectangle flippedCardBox = new Rectangle(158, 492, (int)CARD_WIDTH+1, CARD_HEIGHT);
+
+            // get the image resource from the project
+            Bitmap cardImageFile = Durak.Properties.Resources.CardImages;
+
+            // set the flipped card image
+            myFlippedCardImage = cardImageFile.Clone(flippedCardBox, cardImageFile.PixelFormat);
+
+            // load all the rest of the face up images of the cards
+            for (int i = 0; i < NUMBER_OF_SUITS; ++i)
             {
-                // Pick random element to swap.
-                int j = random.Next(i); // 0 <= j <= i-1
-                // Swap.
-                int tmp = array[j];
-                array[j] = array[i - 1];
-                array[i - 1] = tmp;
+                for (int j = 0; j < NUMBER_OF_RANKS; ++j)
+                {
+                    rectCropArea = new RectangleF(j * CARD_WIDTH, i * CARD_HEIGHT, CARD_WIDTH, CARD_HEIGHT);
+                    myCardImages[i, j] = cardImageFile.Clone(rectCropArea, cardImageFile.PixelFormat);
+                }
             }
         }
+
+        private void drawPlayers(Graphics gfx)
+        {
+            if (gfx == null)
+                throw new ArgumentException("Cannot draw to a null Graphics object.");
+
+            // draw the human player first
+            for(int i = 0; i < myPlayers[0].GetCardCount; ++i)
+            {
+                Card playerCard = myPlayers[0].myHand[i];
+                
+                gfx.DrawImage(getCardImage(playerCard), mySeats[0].X + i * 25, mySeats[0].Y);
+            }
+
+            // then the computer ones
+            for (int i = 1; i < myPlayers.Count; ++i)
+            {
+                gfx.DrawImage(myFlippedCardImage, mySeats[i]);
+            }
+
+        }
+
+        /// <summary>
+        /// Uses the cards rank and suit to get the image from the card image array
+        /// </summary>
+        /// <param name="aCard"></param>
+        /// <returns></returns>
+        private Bitmap getCardImage(Card aCard)
+        {
+            return myCardImages[(int)aCard.getSuit, (int)aCard.getValue];
+        }
+
 
         public static void CalculateMovement(int x, int y)
         {
@@ -127,46 +221,39 @@ namespace Durak
             topMove = (CARD_END_POSITION_Y - y) / 5;
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            Image newImage = Image.FromFile(@"C:\Users\My Files\Documents\Visual Studio 2010\guiproposal\guiproposal\Resources\cards2.png");
-            Bitmap sourceBitmap = new Bitmap(newImage, 1027, 615); // make constants
+        #endregion
 
+        #region "Constructors"
 
-            PictureBox newPictureBox = new PictureBox();
-            Controls.Add(newPictureBox);
-
-            // set position and size
-            newPictureBox.Location = new Point(100 * currentCard + 100, 355);
-            newPictureBox.Size = new Size(80, 125);
-
-            newPictureBox.Click += new EventHandler(CardClickHandler);
-
-            cord0 = Convert.ToInt32(aDeck.deck[theCards[currentCard]].getValue) * 79;
-            cord1 = Convert.ToInt32(aDeck.deck[theCards[currentCard]].getSuit) * 123;
-
-
-            //  MessageBox.Show(aDeck.deck[theCards[currentCard]].getValue.ToString());
-            // MessageBox.Show(aDeck.deck[theCards[currentCard]].getSuit.ToString());
-
-            rectCropArea = new Rectangle(cord0, cord1, cord2, cord3);
-            newPictureBox.Image = (Image)sourceBitmap.Clone(rectCropArea, sourceBitmap.PixelFormat);
-
-            currentCard++;
-            sourceBitmap.Dispose();
-        }
-
-        public GameRoom()
+        public GameRoom(int numPlayers = 2, Deck.DeckSize theDeckSize = Deck.DeckSize.FIFTY_TWO, bool isAiGame = false /*Difficulty AiDiff = Basic, DurakRules Basic */)
         {
             InitializeComponent();
-          
+            NUMBER_OF_PLAYERS = numPlayers;
+            myDeckSize = theDeckSize;
+
+            myDeck = new Deck(myDeckSize);
+
+            mySeats[0] = new Point(400, 900);
+            mySeats[1] = new Point(200, 100);
+            mySeats[2] = new Point(400, 100);
+            mySeats[3] = new Point(400, 1100);
+            mySeats[4] = new Point(400, 1100);
+            mySeats[5] = new Point(400, 1100);
+
+            myPlayers.Add(new HumanPlayer(mySeats[0]));
+            myDeck.deal(myPlayers[0].myHand);
+            for (int i = 0; i < 52; ++i )
+                myDeck.deal(myPlayers[0].myHand);
+
+                // set the seating arrangements
+                for (int i = 1; i < NUMBER_OF_PLAYERS; ++i)
+                {
+                    myPlayers.Add(new ComputerPlayer(mySeats[i], myDeck));
+                }
+
         }
 
-        private void GameRoom_Load(object sender, EventArgs e)
-        {
-            //Draw all hands
-        }
-
+        #endregion
 
         //Needed events:
 
