@@ -26,7 +26,13 @@ namespace CardLibrary
 
         #endregion
 
+        
         #region "Properties"
+
+        public bool Empty
+        {
+            get { return (myHand.Count > 0 ? false : true); }
+        }
 
         /// <summary>
         /// Indexer for the hand class.
@@ -45,7 +51,7 @@ namespace CardLibrary
         {
             get { return myHand.Count; }
         }
-
+     
         #endregion
 
 
@@ -60,6 +66,12 @@ namespace CardLibrary
         {
             aHand.myHand.AddRange(myHand);
             clear();
+        }
+
+        public void giveCardTo(Hand aHand, int index)
+        {
+            aHand.myHand.Add(myHand[index]);
+            myHand.RemoveAt(index);
         }
 
         /// <summary>

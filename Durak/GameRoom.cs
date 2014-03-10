@@ -15,6 +15,8 @@ namespace Durak
         // Constants
         const int NUMBER_OF_SUITS = 4;
         const int NUMBER_OF_RANKS = 13;
+        const float CARD_WIDTH = 1025f / 13f;
+        const int CARD_HEIGHT = 123;
 
         // number of players in this game
         readonly int NUMBER_OF_PLAYERS;
@@ -62,26 +64,49 @@ namespace Durak
 
         #region "Event Handlers"
 
+        //protected override void OnPaint(PaintEventArgs e)
+        //{
+        //    pbDrawArea.Refresh();
+        //    base.OnPaint(e);
+        //}
+
         private void pbDrawArea_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
         {
             // Create a local version of the graphics object for the PictureBox.
             Graphics gfx = e.Graphics;
             drawPlayers(gfx);
+            gfx.DrawImage(myFlippedCardImage, new Point(this.Width - 150, this.Height / 2));
+            if (!myDeck.Empty)
+                gfx.DrawImage(getCardImage(myDeck[0]), new Point(this.Width - 150, this.Height / 2 - 100));
         }
 
         private void CardClickHandler(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            
-            if (!timer1.Enabled)
-            {
-                var help = (PictureBox)sender;
-                // MessageBox.Show(help.Left.ToString());
-                testnum++;
-                CalculateMovement(help.Left, help.Top);
-                timer1.Tag = help;
-                timer1.Enabled = true;
 
+            if(!myPlayers[0].myHand.Empty && e.X > mySeats[0].X && e.X < mySeats[0].X + myPlayers[0].myHand.GetCardCount*25 + CARD_WIDTH - 25 && e.Y > mySeats[0].Y && e.Y < mySeats[0].Y + CARD_HEIGHT)
+            {
+                int selectedCard;
+
+                selectedCard = (e.X - mySeats[0].X) / 25;
+
+                if (selectedCard > myPlayers[0].myHand.GetCardCount - 1)
+                    selectedCard = myPlayers[0].myHand.GetCardCount - 1;
+
+                myPlayers[0].myHand.giveCardTo(myDiscardPile, selectedCard);
+
+                pbDrawArea.Invalidate();
             }
+
+            //if (!timer1.Enabled)
+            //{
+            //    var help = (PictureBox)sender;
+            //    // MessageBox.Show(help.Left.ToString());
+            //    testnum++;
+            //    CalculateMovement(help.Left, help.Top);
+            //    timer1.Tag = help;
+            //    timer1.Enabled = true;
+
+            //}
         }
 
 
@@ -154,12 +179,8 @@ namespace Durak
         #region "Methods"
         private void loadCardImages()
         {
-            // constants
-            const float CARD_WIDTH = 1025f/13f;
-            const int CARD_HEIGHT = 123;
-
+           
             // declarations
-
             // used to crop the bitmap images
             RectangleF rectCropArea;
 
@@ -177,7 +198,7 @@ namespace Durak
             {
                 for (int j = 0; j < NUMBER_OF_RANKS; ++j)
                 {
-                    rectCropArea = new RectangleF(j * CARD_WIDTH, i * CARD_HEIGHT, CARD_WIDTH, CARD_HEIGHT);
+                    rectCropArea = new RectangleF((int)Math.Round(j * CARD_WIDTH), i * CARD_HEIGHT, CARD_WIDTH, CARD_HEIGHT);
                     myCardImages[i, j] = cardImageFile.Clone(rectCropArea, cardImageFile.PixelFormat);
                 }
             }
@@ -233,7 +254,7 @@ namespace Durak
 
             myDeck = new Deck(myDeckSize);
 
-            mySeats[0] = new Point(400, 900);
+            mySeats[0] = new Point((int)(this.Width / 3.0 - 200), this.Height - 100);
             mySeats[1] = new Point(200, 100);
             mySeats[2] = new Point(400, 100);
             mySeats[3] = new Point(400, 1100);
@@ -242,7 +263,7 @@ namespace Durak
 
             myPlayers.Add(new HumanPlayer(mySeats[0]));
             myDeck.deal(myPlayers[0].myHand);
-            for (int i = 0; i < 52; ++i )
+            for (int i = 0; i < 50; ++i )
                 myDeck.deal(myPlayers[0].myHand);
 
                 // set the seating arrangements
@@ -254,6 +275,7 @@ namespace Durak
         }
 
         #endregion
+
 
         //Needed events:
 
