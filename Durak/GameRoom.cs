@@ -15,7 +15,7 @@ namespace Durak
         // Constants
         const int NUMBER_OF_SUITS = 4;
         const int NUMBER_OF_RANKS = 13;
-        const float CARD_WIDTH = 1025f / 13f;
+        const int CARD_WIDTH = 79;
         const int CARD_HEIGHT = 123;
 
         // number of players in this game
@@ -182,10 +182,10 @@ namespace Durak
            
             // declarations
             // used to crop the bitmap images
-            RectangleF rectCropArea;
+            Rectangle rectCropArea;
 
             // location of the flipped card
-            Rectangle flippedCardBox = new Rectangle(158, 492, (int)CARD_WIDTH+1, CARD_HEIGHT);
+            Rectangle flippedCardBox = new Rectangle(CARD_WIDTH*2, CARD_HEIGHT*4, CARD_WIDTH, CARD_HEIGHT);
 
             // get the image resource from the project
             Bitmap cardImageFile = Durak.Properties.Resources.CardImages;
@@ -198,7 +198,8 @@ namespace Durak
             {
                 for (int j = 0; j < NUMBER_OF_RANKS; ++j)
                 {
-                    rectCropArea = new RectangleF((int)Math.Round(j * CARD_WIDTH), i * CARD_HEIGHT, CARD_WIDTH, CARD_HEIGHT);
+                    rectCropArea = new Rectangle(j * CARD_WIDTH, i * CARD_HEIGHT, CARD_WIDTH, CARD_HEIGHT);
+
                     myCardImages[i, j] = cardImageFile.Clone(rectCropArea, cardImageFile.PixelFormat);
                 }
             }
@@ -253,7 +254,7 @@ namespace Durak
             myDeckSize = theDeckSize;
 
             myDeck = new Deck(myDeckSize);
-
+            myDeck.shuffle();
             mySeats[0] = new Point((int)(this.Width / 3.0 - 200), this.Height - 100);
             mySeats[1] = new Point(200, 100);
             mySeats[2] = new Point(400, 100);
