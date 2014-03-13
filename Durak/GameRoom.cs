@@ -27,8 +27,6 @@ namespace Durak
         // the size of the deck for this game of durak
         Deck.DeckSize myDeckSize;
 
-        int[] theCards = new int[51];
-
         // the playing card deck
         Deck myDeck;
 
@@ -37,9 +35,6 @@ namespace Durak
 
         // the players seating positions for a max of 6 players
         private Point[] mySeats = new Point[6];
-
-        // the picture box that is used to draw the cards
-        private PictureBox pbDrawArea = new PictureBox();
 
         // the discarded cards
         private Hand myDiscardPile = new Hand();
@@ -64,18 +59,14 @@ namespace Durak
 
         #region "Event Handlers"
 
-        //protected override void OnPaint(PaintEventArgs e)
-        //{
-        //    pbDrawArea.Refresh();
-        //    base.OnPaint(e);
-        //}
-
-        private void pbDrawArea_Paint(object sender, System.Windows.Forms.PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs e)
         {
+            base.OnPaint(e);
             // Create a local version of the graphics object for the PictureBox.
             Graphics gfx = e.Graphics;
             drawPlayers(gfx);
             gfx.DrawImage(myFlippedCardImage, new Point(this.Width - 150, this.Height / 2));
+
             if (!myDeck.Empty)
                 gfx.DrawImage(getCardImage(myDeck[0]), new Point(this.Width - 150, this.Height / 2 - 100));
         }
@@ -83,7 +74,9 @@ namespace Durak
         private void CardClickHandler(object sender, System.Windows.Forms.MouseEventArgs e)
         {
 
-            if(!myPlayers[0].myHand.Empty && e.X > mySeats[0].X && e.X < mySeats[0].X + myPlayers[0].myHand.GetCardCount*25 + CARD_WIDTH - 25 && e.Y > mySeats[0].Y && e.Y < mySeats[0].Y + CARD_HEIGHT)
+            if(!myPlayers[0].myHand.Empty && e.X > mySeats[0].X 
+                && e.X < mySeats[0].X + myPlayers[0].myHand.GetCardCount*25 + CARD_WIDTH - 25 
+                && e.Y > mySeats[0].Y && e.Y < mySeats[0].Y + CARD_HEIGHT)
             {
                 int selectedCard;
 
@@ -93,8 +86,7 @@ namespace Durak
                     selectedCard = myPlayers[0].myHand.GetCardCount - 1;
 
                 myPlayers[0].myHand.giveCardTo(myDiscardPile, selectedCard);
-
-                pbDrawArea.Invalidate();
+                this.Invalidate();
             }
 
             //if (!timer1.Enabled)
@@ -117,17 +109,10 @@ namespace Durak
         /// <param name="e"></param>
         private void GameRoom_Load(object sender, EventArgs e)
         {
-             // Dock the PictureBox to the form and set its background to white.
-            pbDrawArea.Dock = DockStyle.Fill;
-            pbDrawArea.BackColor = Color.White;
-            // Connect the Paint event of the PictureBox to the event handler method.
-            pbDrawArea.Paint += new System.Windows.Forms.PaintEventHandler(this.pbDrawArea_Paint);
-            pbDrawArea.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CardClickHandler);
-
-            // Add the PictureBox control to the Form. 
-            this.Controls.Add(pbDrawArea);
+            this.BackColor = Color.Beige;
+            this.MouseClick += this.CardClickHandler;
+            // load the card images to memory from the sprite sheet
             loadCardImages();
-
         }
 
 
@@ -179,7 +164,6 @@ namespace Durak
         #region "Methods"
         private void loadCardImages()
         {
-           
             // declarations
             // used to crop the bitmap images
             Rectangle rectCropArea;
@@ -250,6 +234,7 @@ namespace Durak
         public GameRoom(int numPlayers = 2, Deck.DeckSize theDeckSize = Deck.DeckSize.FIFTY_TWO, bool isAiGame = false /*Difficulty AiDiff = Basic, DurakRules Basic */)
         {
             InitializeComponent();
+            this.DoubleBuffered = true;
             NUMBER_OF_PLAYERS = numPlayers;
             myDeckSize = theDeckSize;
 
@@ -263,8 +248,7 @@ namespace Durak
             mySeats[5] = new Point(400, 1100);
 
             myPlayers.Add(new HumanPlayer(mySeats[0]));
-            myDeck.deal(myPlayers[0].myHand);
-            for (int i = 0; i < 50; ++i )
+            for (int i = 0; i < 51; ++i )
                 myDeck.deal(myPlayers[0].myHand);
 
                 // set the seating arrangements
