@@ -15,28 +15,18 @@ namespace Durak
     abstract class GenericPlayer
     {
         internal Hand myHand = new Hand();
-        internal Point mySeat;
+
+        protected const int PASS = -1;
 
         internal int GetCardCount
         {
             get { return myHand.GetCardCount; }
         }
 
-        //maybe Play delegate that handles Attack, DefendBasic, and DefendPassing functions 
-        internal virtual void Attack(ref GenericPlayer defender)
-        {
-        }
-
         
-        internal virtual bool Defend ()
-        {
-            bool trumpPlayed = false;
+        internal virtual int Attack() { return 0; }
 
-
-            
-
-            return trumpPlayed;
-        }
+        internal virtual int Defend() { return 0; }
 
         
     }

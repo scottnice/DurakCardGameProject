@@ -29,6 +29,36 @@ namespace CardLibrary
             set { isFaceDown = value; }
         }
 
+        public static bool operator >(Card me, Card other)
+        {
+            return me.getValue > other.getValue;
+        }
+
+        public static bool operator >=(Card me, Card other)
+        {
+            return me.getValue >= other.getValue;
+        }
+
+        public static bool operator <(Card me, Card other)
+        {
+            return me.getValue < other.getValue;
+        }
+
+        public static bool operator <=(Card me, Card other)
+        {
+            return me.getValue <= other.getValue;
+        }
+
+        /*public static bool operator ==(Card me, Card other)
+        {
+            return me.getValue == other.getValue;
+        }
+
+        public static bool operator !=(Card me, Card other)
+        {
+            return me.getValue != other.getValue;
+        } */
+
     #endregion
 
 

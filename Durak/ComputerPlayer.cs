@@ -13,13 +13,21 @@ namespace Durak
     class ComputerPlayer : GenericPlayer
     {
 
-        readonly int DECK_SIZE;
+        internal enum AIDifficulty { Basic, Advanced, Cheater };
 
+        readonly Deck.DeckSize DECK_SIZE;
 
-        public ComputerPlayer(Point seat, Deck theDeck)
+        protected Hand discardPile;
+
+        protected Hand bout;
+
+        protected Suit trumpSuit;
+
+        protected DurakGame theGame;
+
+        public ComputerPlayer(DurakGame theGame)
         {
-            DECK_SIZE = theDeck.GetDeckSize;
-            mySeat = seat;
+            this.theGame = theGame;   
         }
 
     }
