@@ -11,9 +11,9 @@ namespace CardLibrary
     public class Deck
     {
         // minimum card face values for each deck size.
-        private const CardValue TWENTY_LOW_VALUE = CardValue.TEN;
-        private const CardValue THIRTY_SIX_LOW_VALUE = CardValue.SIX;
-        private const CardValue FIFTY_TWO_LOW_VALUE = CardValue.TWO;
+        private const Rank TWENTY_LOW_VALUE = Rank.TEN;
+        private const Rank THIRTY_SIX_LOW_VALUE = Rank.SIX;
+        private const Rank FIFTY_TWO_LOW_VALUE = Rank.TWO;
 
         // different deck sizes
         public enum DeckSize { TWENTY = 20, THIRTY_SIX = 36, FIFTY_TWO = 52 }
@@ -108,9 +108,9 @@ namespace CardLibrary
             // doing the same with all other suits.
             for (int i = 0; i < NUMBER_SUITS; ++i)
             {
-                for (int j = lowCard; j <= (int)CardValue.ACE; ++j)
+                for (int j = lowCard; j <= (int)Rank.ACE; ++j)
                 {
-                    deck.Add(new Card((Suit)i, (CardValue)j));
+                    deck.Add(new Card((Suit)i, (Rank)j));
                 }
             }
         }

@@ -4,11 +4,11 @@ namespace CardLibrary
     public class Card : ICloneable, IComparable
     {
         // max and min possible card values
-        private const int MIN_VALUE = (int)CardValue.TWO;
-        private const int MAX_VALUE = (int)CardValue.ACE;
+        private const int MIN_VALUE = (int)Rank.TWO;
+        private const int MAX_VALUE = (int)Rank.ACE;
 
         private Suit mySuit;
-        private CardValue myValue;
+        private Rank myValue;
         private bool isFaceDown;
 
     #region "Properties"
@@ -18,16 +18,47 @@ namespace CardLibrary
             get { return mySuit; }
         }
 
-        public CardValue getValue
+        public Rank getRank
         {
             get {return myValue; }
         }
 
-        public bool FaceDown
+        public bool IsFaceDown
         {
             get { return isFaceDown; }
             set { isFaceDown = value; }
         }
+
+        public static bool operator >(Card me, Card other)
+        {
+            return me.getRank > other.getRank;
+        }
+
+        public static bool operator >=(Card me, Card other)
+        {
+            return me.getRank >= other.getRank;
+        }
+
+        public static bool operator <(Card me, Card other)
+        {
+            return me.getRank < other.getRank;
+        }
+
+        public static bool operator <=(Card me, Card other)
+        {
+            return me.getRank <= other.getRank;
+        }
+
+        public static bool operator ==(Card me, Card other)
+        {
+            return me.getRank == other.getRank;
+        }
+
+        public static bool operator !=(Card me, Card other)
+        {
+            return me.getRank != other.getRank;
+        }
+
 
     #endregion
 
@@ -41,7 +72,7 @@ namespace CardLibrary
         /// <param name="aSuit"></param>
         /// <param name="cardNum"></param>
         /// <param name="isFaceDown"></param>
-        public Card(Suit aSuit, CardValue cardNum, bool isFaceDown = false) 
+        public Card(Suit aSuit, Rank cardNum, bool isFaceDown = false) 
         {
             mySuit = aSuit;
             myValue = cardNum;
@@ -93,7 +124,7 @@ namespace CardLibrary
             if (aCard == null)
                 return false;
 
-            return (aCard.getSuit.Equals(getSuit)) && (aCard.getValue.Equals(getValue));
+            return (aCard.getSuit.Equals(getSuit)) && (aCard.getRank.Equals(getRank));
         }
 
         /// <summary>

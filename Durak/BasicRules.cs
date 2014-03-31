@@ -3,25 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using CardLibrary;
 
 namespace Durak
 {
     class BasicRules : DurakGame
     {
-        public BasicRules(int numberOfCards, int numberOfPlayers): base ( numberOfCards,  numberOfPlayers)   // needed rules enum
+        public BasicRules(Deck theDeck, List<GenericPlayer> thePlayers) : base(theDeck, thePlayers)   // needed rules enum
         {
-
-            Play();
-
         }
 
 
 
-        private bool Play()
+        public bool Defend(Card selectedCard)
         {
             if (!isGameOver)
             {
+                if (selectedCard > myHand[myHand.GetCardCount - 1])
+                {
+                    return true;
+                }
+                else
+                    return false;
                 /*
                  * 
                  * AttackingPlayer.Attack();
@@ -34,6 +37,19 @@ namespace Durak
             
 
             return isGameOver;
+        }
+
+        public bool Attack(Card selectedCard)
+        {
+            if(myHand.GetCardCount == 0)
+            {
+                return true;
+            }
+            else if(selectedCard.getRank != myHand[0].getRank)
+            {
+                return false;
+            }
+            return false;
         }
 
        

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CardLibrary;
 
 namespace Durak
 {
     class PassingRules : DurakGame
     {
-        public PassingRules(int numberOfCards, int numberOfPlayers): base ( numberOfCards,  numberOfPlayers)   // needed rules enum
+        public PassingRules(Deck theDeck, List<GenericPlayer> thePlayers) : base(theDeck, thePlayers) // needed rules enum
         {
 
             Play();

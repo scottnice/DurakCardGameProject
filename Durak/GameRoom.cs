@@ -57,6 +57,8 @@ namespace Durak
 
         static int testnum = 0;
 
+        private DurakGame myGameRules;
+
         #region "Event Handlers"
 
         protected override void OnPaint(PaintEventArgs e)
@@ -85,7 +87,7 @@ namespace Durak
                 if (selectedCard > myPlayers[0].myHand.GetCardCount - 1)
                     selectedCard = myPlayers[0].myHand.GetCardCount - 1;
 
-                myPlayers[0].myHand.giveCardTo(myDiscardPile, selectedCard);
+                myPlayers[0].myHand.giveCardTo(myGameRules.myHand, selectedCard);
                 this.Invalidate();
             }
 
@@ -172,7 +174,7 @@ namespace Durak
             Rectangle flippedCardBox = new Rectangle(CARD_WIDTH*2, CARD_HEIGHT*4, CARD_WIDTH, CARD_HEIGHT);
 
             // get the image resource from the project
-            Bitmap cardImageFile = Durak.Properties.Resources.CardImages;
+            Bitmap cardImageFile = new Bitmap(Durak.Properties.Resources.CardImages);
 
             // set the flipped card image
             myFlippedCardImage = cardImageFile.Clone(flippedCardBox, cardImageFile.PixelFormat);
@@ -205,7 +207,11 @@ namespace Durak
             // then the computer ones
             for (int i = 1; i < myPlayers.Count; ++i)
             {
-                gfx.DrawImage(myFlippedCardImage, mySeats[i]);
+                for (int j = 0; j < myPlayers[i].GetCardCount; ++j)
+                {
+                    Point p = mySeats[i];
+                    gfx.DrawImage(myFlippedCardImage, p.X + 25 * j, p.Y);
+                }
             }
 
         }
@@ -217,7 +223,7 @@ namespace Durak
         /// <returns></returns>
         private Bitmap getCardImage(Card aCard)
         {
-            return myCardImages[(int)aCard.getSuit, (int)aCard.getValue];
+            return myCardImages[(int)aCard.getSuit, (int)aCard.getRank];
         }
 
 
@@ -240,6 +246,7 @@ namespace Durak
 
             myDeck = new Deck(myDeckSize);
             myDeck.shuffle();
+
             mySeats[0] = new Point((int)(this.Width / 3.0 - 200), this.Height - 100);
             mySeats[1] = new Point(200, 100);
             mySeats[2] = new Point(400, 100);
@@ -248,14 +255,16 @@ namespace Durak
             mySeats[5] = new Point(400, 1100);
 
             myPlayers.Add(new HumanPlayer(mySeats[0]));
-            for (int i = 0; i < 51; ++i )
-                myDeck.deal(myPlayers[0].myHand);
 
-                // set the seating arrangements
-                for (int i = 1; i < NUMBER_OF_PLAYERS; ++i)
-                {
-                    myPlayers.Add(new ComputerPlayer(mySeats[i], myDeck));
-                }
+            // set the seating arrangements
+            for (int i = 1; i < NUMBER_OF_PLAYERS; ++i)
+            {
+                myPlayers.Add(new ComputerPlayer(mySeats[i], myDeck));
+            }
+            
+            myGameRules = new BasicRules(myDeck, myPlayers);
+            myGameRules.dealCards(6);
+
 
         }
 
