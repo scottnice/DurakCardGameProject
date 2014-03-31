@@ -9,13 +9,24 @@ namespace Durak
 {
     class PassingRules : DurakGame
     {
-        public PassingRules(Deck theDeck, List<GenericPlayer> thePlayers) : base(theDeck, thePlayers) // needed rules enum
+        public PassingRules(int numberOfPlayers = MIN_PLAYERS, Deck.DeckSize deckSize = Deck.DeckSize.FIFTY_TWO,
+                        ComputerPlayer.AIDifficulty difficulty = ComputerPlayer.AIDifficulty.Basic, bool isAllAI = false)
+            : base(numberOfPlayers, deckSize, difficulty, isAllAI)
         {
 
             Play();
 
         }
 
+        public override List<int> playableAttackingCards(CardLibrary.Hand playerHand)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override List<int> playableDefendingCards(CardLibrary.Hand playerHand)
+        {
+            throw new NotImplementedException();
+        }
 
 
         private bool Play()

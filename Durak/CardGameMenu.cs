@@ -19,7 +19,7 @@ namespace Durak
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            GameRoom newGame = new GameRoom();
+            GameRoom newGame = new GameRoom(new BasicRules());
             newGame.ShowDialog();
         }
 

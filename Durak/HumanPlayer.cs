@@ -12,11 +12,28 @@ namespace Durak
     /// </summary>
     class HumanPlayer : GenericPlayer
     {
-
-        public HumanPlayer(Point seat)
+        int cardIndex;
+        public HumanPlayer()
         {
 
         }
+
+        internal virtual void play(int cardIndex)
+        {
+            this.cardIndex = cardIndex;
+        }
+
+        internal override int Attack()
+        {
+            return cardIndex;
+        }
+
+        internal override int Defend()
+        {
+            return cardIndex;
+        }
+
+        
 
     }
 }

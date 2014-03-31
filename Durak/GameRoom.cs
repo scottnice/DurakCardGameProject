@@ -17,30 +17,13 @@ namespace Durak
         const int NUMBER_OF_RANKS = 13;
         const int CARD_WIDTH = 79;
         const int CARD_HEIGHT = 123;
-
+        // get the image resource from the project
+        private static Bitmap cardImageFile = new Bitmap(Durak.Properties.Resources.CardImages);
         // number of players in this game
         readonly int NUMBER_OF_PLAYERS;
 
-        // determines whether the game is AI only
-        private bool isAiGame;
-
-        // the size of the deck for this game of durak
-        Deck.DeckSize myDeckSize;
-
-        // the playing card deck
-        Deck myDeck;
-
-        // the players list
-        List<GenericPlayer> myPlayers = new List<GenericPlayer>();
-
         // the players seating positions for a max of 6 players
         private Point[] mySeats = new Point[6];
-
-        // the discarded cards
-        private Hand myDiscardPile = new Hand();
-
-        // the cards currently in play
-        private Hand myPlayedCards = new Hand();
         
         // an array of all the card images
         private Bitmap[,] myCardImages = new Bitmap[NUMBER_OF_SUITS, NUMBER_OF_RANKS];
@@ -57,7 +40,7 @@ namespace Durak
 
         static int testnum = 0;
 
-        private DurakGame myGameRules;
+        internal DurakGame myGame;
 
         #region "Event Handlers"
 
@@ -69,38 +52,33 @@ namespace Durak
             drawPlayers(gfx);
             gfx.DrawImage(myFlippedCardImage, new Point(this.Width - 150, this.Height / 2));
 
-            if (!myDeck.Empty)
-                gfx.DrawImage(getCardImage(myDeck[0]), new Point(this.Width - 150, this.Height / 2 - 100));
+            if (!myGame.myDeck.Empty)
+                gfx.DrawImage(getCardImage(myGame.myDeck[0]), new Point(this.Width - 150, this.Height / 2 - 100));
+            for (int i = 0; i < myGame.myBout.GetCardCount; ++i )
+                gfx.DrawImage(getCardImage(myGame.myBout[i]), new Point(600+i*25,600));
         }
 
         private void CardClickHandler(object sender, System.Windows.Forms.MouseEventArgs e)
         {
 
-            if(!myPlayers[0].myHand.Empty && e.X > mySeats[0].X 
-                && e.X < mySeats[0].X + myPlayers[0].myHand.GetCardCount*25 + CARD_WIDTH - 25 
+            if(!myGame.myPlayers[0].myHand.Empty && e.X > mySeats[0].X 
+                && e.X < mySeats[0].X + myGame.myPlayers[0].myHand.GetCardCount*25 + CARD_WIDTH - 25 
                 && e.Y > mySeats[0].Y && e.Y < mySeats[0].Y + CARD_HEIGHT)
             {
                 int selectedCard;
 
                 selectedCard = (e.X - mySeats[0].X) / 25;
 
-                if (selectedCard > myPlayers[0].myHand.GetCardCount - 1)
-                    selectedCard = myPlayers[0].myHand.GetCardCount - 1;
+                if (selectedCard > myGame.myPlayers[0].myHand.GetCardCount - 1)
+                    selectedCard = myGame.myPlayers[0].myHand.GetCardCount - 1;
 
-                myPlayers[0].myHand.giveCardTo(myGameRules.myHand, selectedCard);
+                HumanPlayer h = (HumanPlayer)myGame.myPlayers[0];
+                h.play(selectedCard);
+                myGame.play();
+
                 this.Invalidate();
             }
 
-            //if (!timer1.Enabled)
-            //{
-            //    var help = (PictureBox)sender;
-            //    // MessageBox.Show(help.Left.ToString());
-            //    testnum++;
-            //    CalculateMovement(help.Left, help.Top);
-            //    timer1.Tag = help;
-            //    timer1.Enabled = true;
-
-            //}
         }
 
 
@@ -113,8 +91,7 @@ namespace Durak
         {
             this.BackColor = Color.Beige;
             this.MouseClick += this.CardClickHandler;
-            // load the card images to memory from the sprite sheet
-            loadCardImages();
+            
         }
 
 
@@ -168,13 +145,10 @@ namespace Durak
         {
             // declarations
             // used to crop the bitmap images
-            Rectangle rectCropArea;
+            //Rectangle rectCropArea;
 
             // location of the flipped card
-            Rectangle flippedCardBox = new Rectangle(CARD_WIDTH*2, CARD_HEIGHT*4, CARD_WIDTH, CARD_HEIGHT);
-
-            // get the image resource from the project
-            Bitmap cardImageFile = new Bitmap(Durak.Properties.Resources.CardImages);
+            Rectangle flippedCardBox = new Rectangle(CARD_WIDTH * 2, CARD_HEIGHT * 4, CARD_WIDTH, CARD_HEIGHT);
 
             // set the flipped card image
             myFlippedCardImage = cardImageFile.Clone(flippedCardBox, cardImageFile.PixelFormat);
@@ -184,8 +158,7 @@ namespace Durak
             {
                 for (int j = 0; j < NUMBER_OF_RANKS; ++j)
                 {
-                    rectCropArea = new Rectangle(j * CARD_WIDTH, i * CARD_HEIGHT, CARD_WIDTH, CARD_HEIGHT);
-
+                    Rectangle rectCropArea = new Rectangle(j * CARD_WIDTH, i * CARD_HEIGHT, CARD_WIDTH, CARD_HEIGHT);
                     myCardImages[i, j] = cardImageFile.Clone(rectCropArea, cardImageFile.PixelFormat);
                 }
             }
@@ -197,15 +170,15 @@ namespace Durak
                 throw new ArgumentException("Cannot draw to a null Graphics object.");
 
             // draw the human player first
-            for(int i = 0; i < myPlayers[0].GetCardCount; ++i)
+            for(int i = 0; i < myGame.myPlayers[0].GetCardCount; ++i)
             {
-                Card playerCard = myPlayers[0].myHand[i];
+                Card playerCard = myGame.myPlayers[0].myHand[i];
                 
                 gfx.DrawImage(getCardImage(playerCard), mySeats[0].X + i * 25, mySeats[0].Y);
             }
 
             // then the computer ones
-            for (int i = 1; i < myPlayers.Count; ++i)
+            for (int i = 1; i < myGame.myPlayers.Count; ++i)
             {
                 for (int j = 0; j < myPlayers[i].GetCardCount; ++j)
                 {
@@ -237,15 +210,13 @@ namespace Durak
 
         #region "Constructors"
 
-        public GameRoom(int numPlayers = 2, Deck.DeckSize theDeckSize = Deck.DeckSize.FIFTY_TWO, bool isAiGame = false /*Difficulty AiDiff = Basic, DurakRules Basic */)
+        internal GameRoom(DurakGame theGame)
         {
+            // load the card images to memory from the sprite sheet
+            loadCardImages();
             InitializeComponent();
             this.DoubleBuffered = true;
-            NUMBER_OF_PLAYERS = numPlayers;
-            myDeckSize = theDeckSize;
-
-            myDeck = new Deck(myDeckSize);
-            myDeck.shuffle();
+            myGame = theGame;
 
             mySeats[0] = new Point((int)(this.Width / 3.0 - 200), this.Height - 100);
             mySeats[1] = new Point(200, 100);
@@ -253,18 +224,6 @@ namespace Durak
             mySeats[3] = new Point(400, 1100);
             mySeats[4] = new Point(400, 1100);
             mySeats[5] = new Point(400, 1100);
-
-            myPlayers.Add(new HumanPlayer(mySeats[0]));
-
-            // set the seating arrangements
-            for (int i = 1; i < NUMBER_OF_PLAYERS; ++i)
-            {
-                myPlayers.Add(new ComputerPlayer(mySeats[i], myDeck));
-            }
-            
-            myGameRules = new BasicRules(myDeck, myPlayers);
-            myGameRules.dealCards(6);
-
 
         }
 

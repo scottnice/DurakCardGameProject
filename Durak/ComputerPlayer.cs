@@ -14,13 +14,21 @@ namespace Durak
     {
         public enum AIDifficulty {Basic, Advanced, Cheater};
 
-        readonly int DECK_SIZE;
-        private readonly Deck cheaterDeck;
+        internal enum AIDifficulty { Basic, Advanced, Cheater };
 
-        public ComputerPlayer(Point seat, Deck theDeck, AIDifficulty difficulty )
+        readonly Deck.DeckSize DECK_SIZE;
+
+        protected Hand discardPile;
+
+        protected Hand bout;
+
+        protected Suit trumpSuit;
+
+        protected DurakGame theGame;
+
+        public ComputerPlayer(DurakGame theGame)
         {
-            DECK_SIZE = theDeck.GetDeckSize;
-            mySeat = seat;
+            this.theGame = theGame;   
         }
 
     }

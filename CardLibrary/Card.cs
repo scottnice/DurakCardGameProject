@@ -31,34 +31,33 @@ namespace CardLibrary
 
         public static bool operator >(Card me, Card other)
         {
-            return me.getRank > other.getRank;
+            return me.getValue > other.getValue;
         }
 
         public static bool operator >=(Card me, Card other)
         {
-            return me.getRank >= other.getRank;
+            return me.getValue >= other.getValue;
         }
 
         public static bool operator <(Card me, Card other)
         {
-            return me.getRank < other.getRank;
+            return me.getValue < other.getValue;
         }
 
         public static bool operator <=(Card me, Card other)
         {
-            return me.getRank <= other.getRank;
+            return me.getValue <= other.getValue;
         }
 
-        public static bool operator ==(Card me, Card other)
+        /*public static bool operator ==(Card me, Card other)
         {
-            return me.getRank == other.getRank;
+            return me.getValue == other.getValue;
         }
 
         public static bool operator !=(Card me, Card other)
         {
-            return me.getRank != other.getRank;
-        }
-
+            return me.getValue != other.getValue;
+        } */
 
     #endregion
 
