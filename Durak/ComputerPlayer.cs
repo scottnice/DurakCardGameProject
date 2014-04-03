@@ -12,8 +12,6 @@ namespace Durak
     /// </summary>
     class ComputerPlayer : GenericPlayer
     {
-        public enum AIDifficulty {Basic, Advanced, Cheater};
-
         internal enum AIDifficulty { Basic, Advanced, Cheater };
 
         readonly Deck.DeckSize DECK_SIZE;

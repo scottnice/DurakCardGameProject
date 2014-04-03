@@ -31,22 +31,22 @@ namespace CardLibrary
 
         public static bool operator >(Card me, Card other)
         {
-            return me.getValue > other.getValue;
+            return me.getRank > other.getRank;
         }
 
         public static bool operator >=(Card me, Card other)
         {
-            return me.getValue >= other.getValue;
+            return me.getRank >= other.getRank;
         }
 
         public static bool operator <(Card me, Card other)
         {
-            return me.getValue < other.getValue;
+            return me.getRank < other.getRank;
         }
 
         public static bool operator <=(Card me, Card other)
         {
-            return me.getValue <= other.getValue;
+            return me.getRank <= other.getRank;
         }
 
         /*public static bool operator ==(Card me, Card other)

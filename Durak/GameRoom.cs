@@ -180,7 +180,7 @@ namespace Durak
             // then the computer ones
             for (int i = 1; i < myGame.myPlayers.Count; ++i)
             {
-                for (int j = 0; j < myPlayers[i].GetCardCount; ++j)
+                for (int j = 0; j < myGame.myPlayers[i].GetCardCount; ++j)
                 {
                     Point p = mySeats[i];
                     gfx.DrawImage(myFlippedCardImage, p.X + 25 * j, p.Y);
