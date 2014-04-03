@@ -12,6 +12,7 @@ namespace Durak
         // Constants
         protected const int MIN_PLAYERS = 2;
         protected const int MAX_PLAYERS = 6;
+        protected const int MIN_CARDS_PER_HAND = 6;
 
         // Game Deck
         internal Deck myDeck;
@@ -40,20 +41,26 @@ namespace Durak
 
         protected bool isAiGame;
 
-        protected GenericPlayer attackingPlayer;
-        protected GenericPlayer defendingPlayer;
-        protected int playersTurnIndex;
+        protected int attackingPlayer;
+        protected int defendingPlayer;
 
-        //public int getAttackingPlayerIndex
-        //{
-        //    get { return attackingPlayer; }
-        //}
+        protected bool isAttacking;
+        protected int currentPlayer;
 
-        //public int getDefendingPlayerIndex
-        //{
-        //    get { return defendingPlayer; }
-        //}
+        public GenericPlayer getCurrentPlayer
+        {
+            get { return myPlayers[currentPlayer]; }
+        }
 
+        public GenericPlayer getAttackingPlayer
+        {
+            get { return myPlayers[attackingPlayer]; }
+        }
+
+        public GenericPlayer getDefendingPlayer
+        {
+            get { return myPlayers[defendingPlayer]; }
+        }
 
         public bool IsAiGame
         {
@@ -64,7 +71,8 @@ namespace Durak
                         ComputerPlayer.AIDifficulty difficulty = ComputerPlayer.AIDifficulty.Basic, bool isAllAI = false)
         {
             if (numberOfPlayers < MIN_PLAYERS || numberOfPlayers > MAX_PLAYERS)
-                throw new ArgumentException("Number of players entered must be between "+MIN_PLAYERS+" and "+MAX_PLAYERS+" you entered " 
+                throw new ArgumentException("Number of players entered must be between "
+                    +MIN_PLAYERS+" and "+MAX_PLAYERS+" you entered " 
                     + numberOfPlayers.ToString(),"numberOfPlayers");
 
             theDeckSize = deckSize;
@@ -85,7 +93,7 @@ namespace Durak
             }
             else
             {
-                myPlayers.Add(new HumanPlayer());
+                myPlayers.Add(new HumanPlayer(this));
 
                 for (int i = 1; i < numberOfPlayers; ++i)
                 {
@@ -94,6 +102,12 @@ namespace Durak
                         case ComputerPlayer.AIDifficulty.Basic:
                             myPlayers.Add(new BasicAI(this));
                             break;
+                        case ComputerPlayer.AIDifficulty.Advanced:
+                            // add stuff here
+                            break;
+                        case ComputerPlayer.AIDifficulty.Cheater:
+                            // add stuff here
+                            break;
                     }
                 }
             }
@@ -101,29 +115,152 @@ namespace Durak
             myDeck = new Deck(theDeckSize);
             myDeck.shuffle();
             trumpCard = myDeck[0];
-            dealCards(6);
+            fillHands();
 
-            attackingPlayer = myPlayers[0];
-            defendingPlayer = myPlayers[1];
+            isAttacking = true;
+            currentPlayer = 0;
+            attackingPlayer = 0;
+            defendingPlayer = 1;
 
+        }
+
+
+        internal virtual void validateHumanCard(int cardIndex)
+        {
+            if(cardIndex == -1)
+            {    
+                ((HumanPlayer)myPlayers[0]).play(cardIndex);
+                play();
+            }
+            else if(attackingPlayer == 0)
+            {
+                List<int> playableCards = playableAttackingCards(getAttackingPlayer.myHand);
+
+                if(playableCards.Count > 0)
+                {
+                    for(int i = 0; i < playableCards.Count; ++i)
+                    {
+                        if(cardIndex == playableCards[i])
+                        {
+                            ((HumanPlayer)myPlayers[0]).play(cardIndex);
+                            play();
+                        }
+                    }
+                }
+
+            }
+            else if(defendingPlayer == 0)
+            {
+                List<int> playableCards = playableDefendingCards(getDefendingPlayer.myHand);
+
+                if(playableCards.Count > 0)
+                {
+                    for(int i = 0; i < playableCards.Count; ++i)
+                    {
+                        if(cardIndex == playableCards[i])
+                        {
+                            ((HumanPlayer)myPlayers[0]).play(cardIndex);
+                            play();
+                        }
+                    }
+                }
+            }
+
+        }
+
+        private void nextAttacker()
+        {
+            attackingPlayer = (attackingPlayer + 1) / myPlayers.Count;
+            defendingPlayer = (defendingPlayer + 1)/ myPlayers.Count;\
+            currentPlayer = attackingPlayer;
+        }
+
+        private void attackerPass()
+        {
+            myBout.giveCardsTo(discardPile);
+            fillHands();
+            nextAttacker();
+        }
+
+        private void defenderPickup()
+        {
+            pickup();
+            fillHands();
         }
 
         internal void play()
         {
+            int attackingCard;
+            int defendingCard;
 
-            attackingPlayer.myHand.giveCardTo(myBout, attackingPlayer.Attack());
+            if (isAttacking)
+            {
+                if (isAiGame || attackingPlayer != 0)
+                {
+                    attackingCard = getAttackingPlayer.Attack();
 
-            defendingPlayer.myHand.giveCardTo(myBout, defendingPlayer.Defend());
+                    if (attackingCard >= 0)
+                        getAttackingPlayer.myHand.giveCardTo(myBout, attackingCard);
+                    else
+                        attackerPass();
 
-            Functions.swap<GenericPlayer>(ref attackingPlayer, ref defendingPlayer);
+                    // check if next player is a computer
+                    if (isAiGame || defendingPlayer != 0)
+                    {
+                        // defender is computer player
+                        defendingCard = getDefendingPlayer.Defend();
 
-            dealCards(attackingPlayer.myHand, 6 - attackingPlayer.myHand.GetCardCount);
-            dealCards(defendingPlayer.myHand, 6 - attackingPlayer.myHand.GetCardCount);
-            
+                        if(defendingCard >= 0)
+                            getDefendingPlayer.myHand.giveCardTo(myBout, defendingCard);
+                        else
+                            defenderPickup();
+                    }
+                }
+            }
+            else
+            {
 
+            }
 
         }
 
+        internal void pickup()
+        {
+            myBout.giveCardsTo(myPlayers[defendingPlayer].myHand);
+        }
+
+        /// <summary>
+        /// Deals cards until all players have 6 cards in hand or deck is empty
+        /// </summary>
+        internal void fillHands()
+        {
+            int numberOfCardsToDeal = 0;
+
+            foreach (GenericPlayer aPlayer in myPlayers)
+            {
+                numberOfCardsToDeal += MIN_CARDS_PER_HAND - aPlayer.myHand.GetCardCount;
+            }
+
+            for (int i = 0; i < myPlayers.Count && numberOfCardsToDeal > 0; )
+            {
+                if (myPlayers[i].GetCardCount < MIN_CARDS_PER_HAND)
+                {
+                    dealCards(myPlayers[i].myHand);
+                    --numberOfCardsToDeal;
+                }
+
+                if (i == myPlayers.Count - 1)
+                    i = 0;
+                else
+                    ++i;
+            }
+        }
+
+        /// <summary>
+        /// Deals a number of cards to a specified hand
+        /// </summary>
+        /// <param name="aHand"></param>
+        /// <param name="numCards"></param>
         internal void dealCards(Hand aHand, int numCards = 1)
         {
             for (int i = 0; i < numCards; ++i)
@@ -132,6 +269,10 @@ namespace Durak
             }
         }
 
+        /// <summary>
+        /// Deals a number of cards to all players
+        /// </summary>
+        /// <param name="numCards"></param>
         internal void dealCards(int numCards = 1)
         {
             if (numCards < 1)

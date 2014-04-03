@@ -27,6 +27,14 @@ namespace Durak
          
         }
 
+        internal override bool validateHumanCard(int cardIndex)
+        {
+
+
+            return true;
+
+        }
+
         public override List<int> playableAttackingCards(CardLibrary.Hand playerHand)
         {
             List<int> playableCards = new List<int>(); 
@@ -69,7 +77,7 @@ namespace Durak
                 {
                     playableCards.Add(i);
                 }
-                else if(playerHand[i].getSuit == trumpCard.getSuit)
+                else if(playerHand[i].getSuit == trumpCard.getSuit && playerHand[i].getSuit != lastPlayedCard.getSuit)
                 {
                     playableCards.Add(i);
                 }

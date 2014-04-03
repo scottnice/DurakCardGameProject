@@ -17,6 +17,7 @@ namespace Durak
         const int NUMBER_OF_RANKS = 13;
         const int CARD_WIDTH = 79;
         const int CARD_HEIGHT = 123;
+        const int CARD_DRAW_OFFSET = 25;
         // get the image resource from the project
         private static Bitmap cardImageFile = new Bitmap(Durak.Properties.Resources.CardImages);
         // number of players in this game
@@ -49,25 +50,25 @@ namespace Durak
             base.OnPaint(e);
             // Create a local version of the graphics object for the PictureBox.
             Graphics gfx = e.Graphics;
-            drawPlayers(gfx);
+            drawGame(gfx);
             gfx.DrawImage(myFlippedCardImage, new Point(this.Width - 150, this.Height / 2));
 
             if (!myGame.myDeck.Empty)
                 gfx.DrawImage(getCardImage(myGame.myDeck[0]), new Point(this.Width - 150, this.Height / 2 - 100));
             for (int i = 0; i < myGame.myBout.GetCardCount; ++i )
-                gfx.DrawImage(getCardImage(myGame.myBout[i]), new Point(600+i*25,600));
+                gfx.DrawImage(getCardImage(myGame.myBout[i]), new Point(600 + i * CARD_DRAW_OFFSET, 200));
         }
 
         private void CardClickHandler(object sender, System.Windows.Forms.MouseEventArgs e)
         {
 
-            if(!myGame.myPlayers[0].myHand.Empty && e.X > mySeats[0].X 
-                && e.X < mySeats[0].X + myGame.myPlayers[0].myHand.GetCardCount*25 + CARD_WIDTH - 25 
+            if(!myGame.myPlayers[0].myHand.Empty && e.X > mySeats[0].X
+                && e.X < mySeats[0].X + myGame.myPlayers[0].myHand.GetCardCount * CARD_DRAW_OFFSET + CARD_WIDTH - CARD_DRAW_OFFSET 
                 && e.Y > mySeats[0].Y && e.Y < mySeats[0].Y + CARD_HEIGHT)
             {
                 int selectedCard;
 
-                selectedCard = (e.X - mySeats[0].X) / 25;
+                selectedCard = (e.X - mySeats[0].X) / CARD_DRAW_OFFSET;
 
                 if (selectedCard > myGame.myPlayers[0].myHand.GetCardCount - 1)
                     selectedCard = myGame.myPlayers[0].myHand.GetCardCount - 1;
@@ -164,7 +165,7 @@ namespace Durak
             }
         }
 
-        private void drawPlayers(Graphics gfx)
+        private void drawGame(Graphics gfx)
         {
             if (gfx == null)
                 throw new ArgumentException("Cannot draw to a null Graphics object.");
@@ -173,8 +174,8 @@ namespace Durak
             for(int i = 0; i < myGame.myPlayers[0].GetCardCount; ++i)
             {
                 Card playerCard = myGame.myPlayers[0].myHand[i];
-                
-                gfx.DrawImage(getCardImage(playerCard), mySeats[0].X + i * 25, mySeats[0].Y);
+
+                gfx.DrawImage(getCardImage(playerCard), mySeats[0].X + i * CARD_DRAW_OFFSET, mySeats[0].Y);
             }
 
             // then the computer ones
@@ -228,6 +229,13 @@ namespace Durak
         }
 
         #endregion
+
+        private void btnPass_Click(object sender, EventArgs e)
+        {
+            HumanPlayer h = (HumanPlayer)myGame.myPlayers[0];
+            h.play(-1);
+            myGame.play();
+        }
 
 
         //Needed events:
