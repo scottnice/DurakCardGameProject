@@ -45,11 +45,11 @@ namespace Durak
 
             for (int i = 1; i < playableCards.Count; ++i)
             {
-                if (playableCards[bestCard] > playableCards[i])
+                if (playableCards[bestCard] >= playableCards[i])
                     bestCard = i;
             }
 
-            return bestCard;
+            return playableCards[bestCard];
         }
 
     }

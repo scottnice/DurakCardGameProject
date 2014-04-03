@@ -13,9 +13,11 @@ namespace Durak
     class HumanPlayer : GenericPlayer
     {
         int cardIndex;
-        public HumanPlayer()
-        {
+        DurakGame theGame;
 
+        public HumanPlayer(DurakGame theGame)
+        {
+            this.theGame = theGame;
         }
 
         internal virtual void play(int cardIndex)
