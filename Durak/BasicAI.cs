@@ -8,8 +8,8 @@ namespace Durak
 {
     class BasicAI : ComputerPlayer
     {
-        public BasicAI(DurakGame theGame)
-            : base(theGame) { }
+        public BasicAI(DurakGame theGame, String name = "Basic AI")
+            : base(theGame, name) { }
 
         internal override int Attack()
         {
@@ -18,7 +18,7 @@ namespace Durak
             List<int> playableCards = theGame.playableAttackingCards(myHand);
 
             if (playableCards.Count == 0)
-                return PASS;
+                return DurakGame.PASS;
 
             bestCard = 0;
 
@@ -28,7 +28,7 @@ namespace Durak
                     bestCard = i;
             }
 
-            return bestCard;
+            return playableCards[bestCard];
 
         }
 
@@ -39,7 +39,7 @@ namespace Durak
             List<int> playableCards = theGame.playableDefendingCards(myHand);
 
             if (playableCards.Count == 0)
-                return PASS;
+                return DurakGame.PASS;
 
             bestCard = 0;
 

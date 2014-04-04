@@ -17,22 +17,9 @@ namespace Durak
         }
 
 
-
-        private void Play()
+        internal override void validateHumanCard(int cardIndex)
         {
-            if (!isGameOver)
-            {
-                
-            }
-         
-        }
-
-        internal override bool validateHumanCard(int cardIndex)
-        {
-
-
-            return true;
-
+            base.validateHumanCard(cardIndex);
         }
 
         public override List<int> playableAttackingCards(CardLibrary.Hand playerHand)
@@ -50,13 +37,20 @@ namespace Durak
             {
                 for (int i = 0; i < playerHand.GetCardCount; ++i)
                 {
-                    bool cardAdded = false;
-                    for (int j = 0; j < myBout.GetCardCount && cardAdded == false; ++j)
+                    if (playerHand[i].getSuit == trumpCard.getSuit)
                     {
-                        if (playerHand[i] > myBout[j])
+                        playableCards.Add(i);
+                    }
+                    else
+                    {
+                        bool cardAdded = false;
+                        for (int j = 0; j < myBout.GetCardCount && cardAdded == false; ++j)
                         {
-                            playableCards.Add(i);
-                            cardAdded = true;
+                            if (playerHand[i] == myBout[j])
+                            {
+                                playableCards.Add(i);
+                                cardAdded = true;
+                            }
                         }
                     }
                 }
@@ -69,17 +63,23 @@ namespace Durak
         public override List<int> playableDefendingCards(CardLibrary.Hand playerHand)
         {
             List<int> playableCards = new List<int>();
-            CardLibrary.Card lastPlayedCard = myBout[myBout.GetCardCount - 1];
 
-            for (int i = 0; i < playerHand.GetCardCount; ++i)
+            if (myBout.Empty)
+                throw new ArgumentNullException("The bout must have a card in it to defend.");
+            else
             {
-                if (playerHand[i].getSuit == lastPlayedCard.getSuit && playerHand[i] > lastPlayedCard)
+                CardLibrary.Card lastPlayedCard = myBout[myBout.GetCardCount - 1];
+
+                for (int i = 0; i < playerHand.GetCardCount; ++i)
                 {
-                    playableCards.Add(i);
-                }
-                else if(playerHand[i].getSuit == trumpCard.getSuit && playerHand[i].getSuit != lastPlayedCard.getSuit)
-                {
-                    playableCards.Add(i);
+                    if (playerHand[i].getSuit == lastPlayedCard.getSuit && playerHand[i] > lastPlayedCard)
+                    {
+                        playableCards.Add(i);
+                    }
+                    else if (playerHand[i].getSuit == trumpCard.getSuit && playerHand[i].getSuit != lastPlayedCard.getSuit)
+                    {
+                        playableCards.Add(i);
+                    }
                 }
             }
 

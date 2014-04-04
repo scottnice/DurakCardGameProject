@@ -14,15 +14,27 @@ namespace Durak
     /// </summary>
     abstract class GenericPlayer
     {
-        internal Hand myHand = new Hand();
+        // A delegate type for hooking up change notifications.
+        public delegate void WonGameEvent(object sender, EventArgs e);
 
-        protected const int PASS = -1;
+        public event WonGameEvent Won;
+
+        protected DurakGame theGame;
+
+        internal string name;
+
+        internal Hand myHand = new Hand();
 
         internal int GetCardCount
         {
             get { return myHand.GetCardCount; }
         }
 
+        internal GenericPlayer(DurakGame theGame, String name = "")
+        {
+            this.theGame = theGame;
+            this.name = name;
+        }
         
         internal virtual int Attack() { return 0; }
 

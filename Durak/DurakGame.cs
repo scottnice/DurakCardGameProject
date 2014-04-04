@@ -9,10 +9,12 @@ namespace Durak
 {
     abstract class DurakGame
     {
+        internal const int PASS = -1;
         // Constants
         protected const int MIN_PLAYERS = 2;
         protected const int MAX_PLAYERS = 6;
         protected const int MIN_CARDS_PER_HAND = 6;
+        protected const int MAX_CARDS_PER_BOUT = 12;
 
         // Game Deck
         internal Deck myDeck;
@@ -124,54 +126,41 @@ namespace Durak
 
         }
 
+        internal void playerWinsHandler(object obj, EventArgs e)
+        {
+            
+        }
 
         internal virtual void validateHumanCard(int cardIndex)
         {
-            if(cardIndex == -1)
+            List<int> playableCards = null;
+
+            if(cardIndex == PASS)
             {    
                 ((HumanPlayer)myPlayers[0]).play(cardIndex);
                 play();
             }
             else if(attackingPlayer == 0)
             {
-                List<int> playableCards = playableAttackingCards(getAttackingPlayer.myHand);
-
-                if(playableCards.Count > 0)
-                {
-                    for(int i = 0; i < playableCards.Count; ++i)
-                    {
-                        if(cardIndex == playableCards[i])
-                        {
-                            ((HumanPlayer)myPlayers[0]).play(cardIndex);
-                            play();
-                        }
-                    }
-                }
+                playableCards = playableAttackingCards(getAttackingPlayer.myHand);
 
             }
             else if(defendingPlayer == 0)
             {
-                List<int> playableCards = playableDefendingCards(getDefendingPlayer.myHand);
-
-                if(playableCards.Count > 0)
-                {
-                    for(int i = 0; i < playableCards.Count; ++i)
-                    {
-                        if(cardIndex == playableCards[i])
-                        {
-                            ((HumanPlayer)myPlayers[0]).play(cardIndex);
-                            play();
-                        }
-                    }
-                }
+                playableCards = playableDefendingCards(getDefendingPlayer.myHand);
             }
 
+            if (playableCards != null && playableCards.Contains(cardIndex))
+            {
+                ((HumanPlayer)myPlayers[0]).play(cardIndex);
+                play();
+            }
         }
 
         private void nextAttacker()
         {
-            attackingPlayer = (attackingPlayer + 1) / myPlayers.Count;
-            defendingPlayer = (defendingPlayer + 1)/ myPlayers.Count;\
+            attackingPlayer = (attackingPlayer + 1) % myPlayers.Count;
+            defendingPlayer = (defendingPlayer + 1)% myPlayers.Count;
             currentPlayer = attackingPlayer;
         }
 
@@ -188,40 +177,67 @@ namespace Durak
             fillHands();
         }
 
-        internal void play()
+        private bool attack()
         {
             int attackingCard;
-            int defendingCard;
+            bool isSuccessful;
 
-            if (isAttacking)
+            attackingCard = getAttackingPlayer.Attack();
+
+            if (attackingCard >= 0)
             {
-                if (isAiGame || attackingPlayer != 0)
-                {
-                    attackingCard = getAttackingPlayer.Attack();
-
-                    if (attackingCard >= 0)
-                        getAttackingPlayer.myHand.giveCardTo(myBout, attackingCard);
-                    else
-                        attackerPass();
-
-                    // check if next player is a computer
-                    if (isAiGame || defendingPlayer != 0)
-                    {
-                        // defender is computer player
-                        defendingCard = getDefendingPlayer.Defend();
-
-                        if(defendingCard >= 0)
-                            getDefendingPlayer.myHand.giveCardTo(myBout, defendingCard);
-                        else
-                            defenderPickup();
-                    }
-                }
+                getAttackingPlayer.myHand.giveCardTo(myBout, attackingCard);
+                isSuccessful=true;
             }
             else
             {
-
+                attackerPass();
+                isSuccessful=false;
             }
 
+            return isSuccessful;
+        }
+
+        private bool defend()
+        {
+            int defendingCard;
+            bool isSuccessful;
+
+            defendingCard = getDefendingPlayer.Defend();
+
+            if (defendingCard >= 0)
+            {
+                getDefendingPlayer.myHand.giveCardTo(myBout, defendingCard);
+                isSuccessful = true;
+            }
+            else
+            {
+                isSuccessful = false;
+                defenderPickup();
+            }
+
+            return isSuccessful;
+
+        }
+
+        internal void play()
+        {
+
+            if (0 == attackingPlayer)
+            {
+                if (attack())
+                    if(defendingPlayer != 0)
+                    defend();
+                else
+                    attack();
+            }
+            else if(0 == defendingPlayer)
+            {
+                bool isDefenseGood = defend();
+
+                if (attackingPlayer != 0)
+                    attack();
+            }
         }
 
         internal void pickup()
@@ -238,7 +254,8 @@ namespace Durak
 
             foreach (GenericPlayer aPlayer in myPlayers)
             {
-                numberOfCardsToDeal += MIN_CARDS_PER_HAND - aPlayer.myHand.GetCardCount;
+                if(aPlayer.GetCardCount < MIN_CARDS_PER_HAND)
+                    numberOfCardsToDeal += MIN_CARDS_PER_HAND - aPlayer.myHand.GetCardCount;
             }
 
             for (int i = 0; i < myPlayers.Count && numberOfCardsToDeal > 0; )

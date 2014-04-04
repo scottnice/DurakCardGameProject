@@ -22,11 +22,9 @@ namespace Durak
 
         protected Suit trumpSuit;
 
-        protected DurakGame theGame;
-
-        public ComputerPlayer(DurakGame theGame)
+        public ComputerPlayer(DurakGame theGame, String name = "Computer Player") : base(theGame, name)
         {
-            this.theGame = theGame;   
+     
         }
 
     }

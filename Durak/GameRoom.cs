@@ -56,7 +56,7 @@ namespace Durak
             if (!myGame.myDeck.Empty)
                 gfx.DrawImage(getCardImage(myGame.myDeck[0]), new Point(this.Width - 150, this.Height / 2 - 100));
             for (int i = 0; i < myGame.myBout.GetCardCount; ++i )
-                gfx.DrawImage(getCardImage(myGame.myBout[i]), new Point(600 + i * CARD_DRAW_OFFSET, 200));
+                gfx.DrawImage(getCardImage(myGame.myBout[i]), new Point(600 + (i/2) * CARD_DRAW_OFFSET, 200 + 100 * ((i + 2) % 2) ));
         }
 
         private void CardClickHandler(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -73,9 +73,7 @@ namespace Durak
                 if (selectedCard > myGame.myPlayers[0].myHand.GetCardCount - 1)
                     selectedCard = myGame.myPlayers[0].myHand.GetCardCount - 1;
 
-                HumanPlayer h = (HumanPlayer)myGame.myPlayers[0];
-                h.play(selectedCard);
-                myGame.play();
+                myGame.validateHumanCard(selectedCard);
 
                 this.Invalidate();
             }
@@ -232,9 +230,8 @@ namespace Durak
 
         private void btnPass_Click(object sender, EventArgs e)
         {
-            HumanPlayer h = (HumanPlayer)myGame.myPlayers[0];
-            h.play(-1);
-            myGame.play();
+            myGame.validateHumanCard(DurakGame.PASS);
+            this.Invalidate();
         }
 
 

@@ -49,15 +49,29 @@ namespace CardLibrary
             return me.getRank <= other.getRank;
         }
 
-        /*public static bool operator ==(Card me, Card other)
+        public static bool operator ==(Card me, Card other)
         {
-            return me.getValue == other.getValue;
+            try
+            {
+                return me.getRank == other.getRank;
+            }
+            catch
+            {
+                return false;
+            }
         }
-
+        
         public static bool operator !=(Card me, Card other)
         {
-            return me.getValue != other.getValue;
-        } */
+            try
+            {
+                return me.getRank != other.getRank;
+            }
+            catch
+            {
+                return true;
+            }
+        }
 
     #endregion
 
@@ -118,12 +132,16 @@ namespace CardLibrary
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            Card aCard = obj as Card;
+            try
+            {
+                Card aCard = obj as Card;
 
-            if (aCard == null)
+                return (aCard.getSuit.Equals(getSuit)) && (aCard.getRank.Equals(getRank));
+            }
+            catch
+            {
                 return false;
-
-            return (aCard.getSuit.Equals(getSuit)) && (aCard.getRank.Equals(getRank));
+            }
         }
 
         /// <summary>
