@@ -1,6 +1,9 @@
 ﻿using System;
 namespace CardLibrary
 {
+    /// <summary>
+    /// Represents a playing card implements the ICloneable, and IComparable interface
+    /// </summary>
     public class Card : ICloneable, IComparable
     {
         // max and min possible card values
@@ -51,26 +54,17 @@ namespace CardLibrary
 
         public static bool operator ==(Card me, Card other)
         {
-            try
-            {
-                return me.getRank == other.getRank;
-            }
-            catch
-            {
+            if ((object)other == null)
                 return false;
-            }
+            return me.getRank == other.getRank;
         }
         
         public static bool operator !=(Card me, Card other)
         {
-            try
-            {
-                return me.getRank != other.getRank;
-            }
-            catch
-            {
+            if ((object)other == null)
                 return true;
-            }
+
+            return me.getRank != other.getRank;
         }
 
     #endregion
@@ -132,16 +126,13 @@ namespace CardLibrary
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            try
-            {
-                Card aCard = obj as Card;
+            Card aCard = obj as Card;
 
+            if ((object)aCard != null)
                 return (aCard.getSuit.Equals(getSuit)) && (aCard.getRank.Equals(getRank));
-            }
-            catch
-            {
+            else
                 return false;
-            }
+           
         }
 
         /// <summary>
@@ -153,6 +144,16 @@ namespace CardLibrary
         public override int GetHashCode()
         {
             return ((int)mySuit * 100 + (int)myValue).GetHashCode();
+        }
+
+        /// <summary>
+        /// Overrides objects to string method and returns a string representing the card 
+        /// in the form of Rank of Suit
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return myValue.ToString() + " of " + mySuit.ToString();
         }
     }
     #endregion

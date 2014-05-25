@@ -7,30 +7,59 @@ using CardLibrary;
 
 namespace Durak
 {
+    /// <summary>
+    /// Represents a game of durak with passing rules enabled - warning file not complete do not use until implemented
+    /// </summary>
     class PassingRules : DurakGame
     {
+        #region "Constructors"
+        /// <summary>
+        /// Calls base constructor and passes arguments - not yet implemented
+        /// </summary>
+        /// <param name="numberOfPlayers"></param>
+        /// <param name="deckSize"></param>
+        /// <param name="difficulty"></param>
+        /// <param name="isAllAI"></param>
         public PassingRules(int numberOfPlayers = MIN_PLAYERS, Deck.DeckSize deckSize = Deck.DeckSize.FIFTY_TWO,
                         ComputerPlayer.AIDifficulty difficulty = ComputerPlayer.AIDifficulty.Basic, bool isAllAI = false)
             : base(numberOfPlayers, deckSize, difficulty, isAllAI)
         {
 
-            Play();
+            throw new NotImplementedException();
 
         }
 
+        #endregion
+
+        #region "Methods"
+
+        /// <summary>
+        /// Returns a list of indexes that corresponds to the cards in the player's hand that can be played this turn as attacking cards
+        /// </summary>
+        /// <param name="playerHand"></param>
+        /// <returns></returns>
         public override List<int> playableAttackingCards(CardLibrary.Hand playerHand)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Returns a list of indexes that corresponds to the cards in the player's hand that can be played this turn as defending cards
+        /// </summary>
+        /// <param name="playerHand"></param>
+        /// <returns></returns>
         public override List<int> playableDefendingCards(CardLibrary.Hand playerHand)
         {
             throw new NotImplementedException();
         }
 
-
-        private bool Play()
+        /// <summary>
+        /// Unfinished code - will be added in next patch update ....
+        /// </summary>
+        /// <returns></returns>
+        internal void Play()
         {
+            throw new NotImplementedException();
             if (!isGameOver)
             {
                 /*
@@ -43,9 +72,9 @@ namespace Durak
                  * 
                  */
             }
-            
-
-            return isGameOver;
         }
+
+        #endregion
+
     }
 }

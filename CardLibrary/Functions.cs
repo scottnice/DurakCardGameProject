@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace CardLibrary
 {
+    /// <summary>
+    /// Provides static generic functions that can be used in any library
+    /// </summary>
     public static class Functions
     {
         /// <summary>
