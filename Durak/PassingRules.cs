@@ -29,6 +29,20 @@ namespace Durak
 
         }
 
+        /// <summary>
+        /// Constructor with per-player AI difficulties - not yet implemented
+        /// </summary>
+        /// <param name="numberOfPlayers"></param>
+        /// <param name="deckSize"></param>
+        /// <param name="difficulties"></param>
+        /// <param name="isAllAI"></param>
+        public PassingRules(int numberOfPlayers, Deck.DeckSize deckSize,
+                        ComputerPlayer.AIDifficulty[] difficulties, bool isAllAI)
+            : base(numberOfPlayers, deckSize, difficulties, isAllAI)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region "Methods"

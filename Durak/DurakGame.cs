@@ -106,8 +106,30 @@ namespace Durak
         /// <param name="deckSize"></param>
         /// <param name="difficulty"></param>
         /// <param name="isAllAI"></param>
-        internal DurakGame(int numberOfPlayers = MIN_PLAYERS, Deck.DeckSize deckSize = Deck.DeckSize.THIRTY_SIX, 
+        internal DurakGame(int numberOfPlayers = MIN_PLAYERS, Deck.DeckSize deckSize = Deck.DeckSize.THIRTY_SIX,
                         ComputerPlayer.AIDifficulty difficulty = ComputerPlayer.AIDifficulty.Basic, bool isAllAI = false)
+            : this(numberOfPlayers, deckSize, new ComputerPlayer.AIDifficulty[] { difficulty, difficulty }, isAllAI, false)
+        {
+        }
+
+        /// <summary>
+        /// Constructor for durak game with per-player AI difficulties
+        /// </summary>
+        /// <param name="numberOfPlayers"></param>
+        /// <param name="deckSize"></param>
+        /// <param name="difficulties">Array of AI difficulties for each player</param>
+        /// <param name="isAllAI"></param>
+        internal DurakGame(int numberOfPlayers, Deck.DeckSize deckSize,
+                        ComputerPlayer.AIDifficulty[] difficulties, bool isAllAI)
+            : this(numberOfPlayers, deckSize, difficulties, isAllAI, true)
+        {
+        }
+
+        /// <summary>
+        /// Private constructor that does the actual initialization
+        /// </summary>
+        private DurakGame(int numberOfPlayers, Deck.DeckSize deckSize,
+                        ComputerPlayer.AIDifficulty[] difficulties, bool isAllAI, bool usePerPlayerDifficulties)
         {
             // validate the number of players
             if (numberOfPlayers < MIN_PLAYERS || numberOfPlayers > MAX_PLAYERS)
@@ -124,22 +146,26 @@ namespace Durak
             {
                 for (int i = 0; i < numberOfPlayers; ++i)
                 {
-                    switch (difficulty)
+                    // Use per-player difficulty if available, otherwise use first difficulty for all
+                    ComputerPlayer.AIDifficulty currentDifficulty = (usePerPlayerDifficulties && i < difficulties.Length)
+                        ? difficulties[i]
+                        : difficulties[0];
+
+                    switch (currentDifficulty)
                     {
                         case ComputerPlayer.AIDifficulty.Basic:
                             myPlayers.Add(new BasicAI(this));
                             break;
                         case ComputerPlayer.AIDifficulty.Advanced:
-                            // add stuff here
-                            throw new ArgumentOutOfRangeException("Advanced AI not implement yet");
+                            myPlayers.Add(new AdvancedAI(this));
                             break;
                         case ComputerPlayer.AIDifficulty.Cheater:
-                            // add stuff here
-                            throw new ArgumentOutOfRangeException("Cheating AI not implement yet");
+                            myPlayers.Add(new CheaterAI(this));
                             break;
                     }
 
-                    myPlayers[i].name = "Computer Player " + (i+1);
+                    // Set name to show difficulty level first
+                    myPlayers[i].name = currentDifficulty.ToString() + " Player " + (i + 1);
                 }
             }
             else // load the player and then the AI's
@@ -148,18 +174,16 @@ namespace Durak
 
                 for (int i = 1; i < numberOfPlayers; ++i)
                 {
-                    switch (difficulty)
+                    switch (difficulties[0])
                     {
                         case ComputerPlayer.AIDifficulty.Basic:
                             myPlayers.Add(new BasicAI(this));
                             break;
                         case ComputerPlayer.AIDifficulty.Advanced:
-                            // add stuff here
-                            throw new ArgumentOutOfRangeException("Advanced AI not implement yet");
+                            myPlayers.Add(new AdvancedAI(this));
                             break;
                         case ComputerPlayer.AIDifficulty.Cheater:
-                            // add stuff here
-                            throw new ArgumentOutOfRangeException("Cheating AI not implement yet");
+                            myPlayers.Add(new CheaterAI(this));
                             break;
                     }
                 }
@@ -188,17 +212,26 @@ namespace Durak
         /// </summary>
         protected void playerWinsHandler()
         {
-            if (myDeck.Empty && getCurrentPlayer.GetCardCount == 0)
+            // Check if deck is empty first
+            if (myDeck.Empty)
             {
-                isGameOver = true;
-                var p = getCurrentPlayer;
-                winningPlayerName = p.name;
+                // Check all players to see if any have won (first to empty their hand wins)
+                for (int i = 0; i < myPlayers.Count; i++)
+                {
+                    if (myPlayers[i].GetCardCount == 0)
+                    {
+                        isGameOver = true;
+                        winningPlayerName = myPlayers[i].name;
 
-                // if not an ai game record the player's stats against the computer
-                if (!IsAiGame && currentPlayer == 0)
-                    Utilities.UpdateStats(false);
-                else if(!IsAiGame)
-                    Utilities.UpdateStats(true);
+                        // if not an ai game record the player's stats against the computer
+                        if (!IsAiGame && i == 0)
+                            Utilities.UpdateStats(false);
+                        else if (!IsAiGame)
+                            Utilities.UpdateStats(true);
+
+                        break; // Found a winner, stop checking
+                    }
+                }
             }
         }
 
