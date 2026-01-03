@@ -20,6 +20,8 @@ namespace Durak
         static private int rulesIndex = 0;
         static private int deckIndex = 0;
         static private int difficultyIndex = 0;
+        static private int player1DifficultyIndex = 0;
+        static private int player2DifficultyIndex = 0;
 
         /// <summary>
         /// Default constructor for the options menu, sets the selected indexes of the combo boxes
@@ -33,6 +35,8 @@ namespace Durak
             cbxRules.SelectedIndex = rulesIndex;
             cbxDeckSize.SelectedIndex = deckIndex;
             cbxAIDifficulty.SelectedIndex = difficultyIndex;
+            cbxPlayer1Difficulty.SelectedIndex = player1DifficultyIndex;
+            cbxPlayer2Difficulty.SelectedIndex = player2DifficultyIndex;
         }
 
         /// <summary>
@@ -41,10 +45,28 @@ namespace Durak
         /// <returns></returns>
         internal DurakGame getGame()
         {
-            if (RulesProperty == 0)
-                return new BasicRules((int)cbxPlayers.SelectedItem, (Deck.DeckSize)cbxDeckSize.SelectedItem, (ComputerPlayer.AIDifficulty)cbxAIDifficulty.SelectedIndex, cboIsAiGame.Checked);
+            // If AI game mode, pass both player difficulties
+            if (cboIsAiGame.Checked)
+            {
+                ComputerPlayer.AIDifficulty[] difficulties = new ComputerPlayer.AIDifficulty[]
+                {
+                    (ComputerPlayer.AIDifficulty)cbxPlayer1Difficulty.SelectedIndex,
+                    (ComputerPlayer.AIDifficulty)cbxPlayer2Difficulty.SelectedIndex
+                };
+
+                if (RulesProperty == 0)
+                    return new BasicRules((int)cbxPlayers.SelectedItem, (Deck.DeckSize)cbxDeckSize.SelectedItem, difficulties, cboIsAiGame.Checked);
+                else
+                    return new PassingRules((int)cbxPlayers.SelectedItem, (Deck.DeckSize)cbxDeckSize.SelectedItem, difficulties, cboIsAiGame.Checked);
+            }
             else
-                return new PassingRules((int)cbxPlayers.SelectedItem, (Deck.DeckSize)cbxDeckSize.SelectedItem, (ComputerPlayer.AIDifficulty)cbxAIDifficulty.SelectedIndex, cboIsAiGame.Checked);
+            {
+                // For human vs AI, use the single difficulty setting
+                if (RulesProperty == 0)
+                    return new BasicRules((int)cbxPlayers.SelectedItem, (Deck.DeckSize)cbxDeckSize.SelectedItem, (ComputerPlayer.AIDifficulty)cbxAIDifficulty.SelectedIndex, cboIsAiGame.Checked);
+                else
+                    return new PassingRules((int)cbxPlayers.SelectedItem, (Deck.DeckSize)cbxDeckSize.SelectedItem, (ComputerPlayer.AIDifficulty)cbxAIDifficulty.SelectedIndex, cboIsAiGame.Checked);
+            }
         }
 
         /// <summary>
@@ -70,17 +92,55 @@ namespace Durak
         {
             rulesIndex = cbxRules.SelectedIndex;
             difficultyIndex = cbxAIDifficulty.SelectedIndex;
+            player1DifficultyIndex = cbxPlayer1Difficulty.SelectedIndex;
+            player2DifficultyIndex = cbxPlayer2Difficulty.SelectedIndex;
 
             deckIndex = cbxDeckSize.SelectedIndex;
             playersIndex = cbxPlayers.SelectedIndex;
 
-            Utilities.UpdateLog("Options set to " + cbxRules.SelectedItem.ToString() + " rules, " + PlayersProperty + " Players, a " + DeckSizeProperty + " card deck, and AI Difficulty of " + DifficultyProperty); 
+            if (cboIsAiGame.Checked)
+            {
+                Utilities.UpdateLog("Options set to " + cbxRules.SelectedItem.ToString() + " rules, " + PlayersProperty + " Players, a " + DeckSizeProperty + " card deck, Player 1: " + Player1DifficultyProperty + ", Player 2: " + Player2DifficultyProperty);
+            }
+            else
+            {
+                Utilities.UpdateLog("Options set to " + cbxRules.SelectedItem.ToString() + " rules, " + PlayersProperty + " Players, a " + DeckSizeProperty + " card deck, and AI Difficulty of " + DifficultyProperty);
+            }
             Close();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        /// <summary>
+        /// Event handler for AI Game checkbox - toggles visibility of difficulty controls
+        /// </summary>
+        private void cboIsAiGame_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cboIsAiGame.Checked)
+            {
+                // Hide single AI difficulty, show per-player difficulties
+                cbxAIDifficulty.Visible = false;
+                lblDifficulty.Visible = false;
+
+                cbxPlayer1Difficulty.Visible = true;
+                lblPlayer1Difficulty.Visible = true;
+                cbxPlayer2Difficulty.Visible = true;
+                lblPlayer2Difficulty.Visible = true;
+            }
+            else
+            {
+                // Show single AI difficulty, hide per-player difficulties
+                cbxAIDifficulty.Visible = true;
+                lblDifficulty.Visible = true;
+
+                cbxPlayer1Difficulty.Visible = false;
+                lblPlayer1Difficulty.Visible = false;
+                cbxPlayer2Difficulty.Visible = false;
+                lblPlayer2Difficulty.Visible = false;
+            }
         }
 
         #region Accessor Methods 
@@ -123,6 +183,28 @@ namespace Durak
             get
             {
                 return (ComputerPlayer.AIDifficulty)cbxAIDifficulty.Items[difficultyIndex];
+            }
+        }
+
+        /// <summary>
+        /// Returns the difficulty enum for Player 1 in AI mode
+        /// </summary>
+        internal ComputerPlayer.AIDifficulty Player1DifficultyProperty
+        {
+            get
+            {
+                return (ComputerPlayer.AIDifficulty)cbxPlayer1Difficulty.Items[player1DifficultyIndex];
+            }
+        }
+
+        /// <summary>
+        /// Returns the difficulty enum for Player 2 in AI mode
+        /// </summary>
+        internal ComputerPlayer.AIDifficulty Player2DifficultyProperty
+        {
+            get
+            {
+                return (ComputerPlayer.AIDifficulty)cbxPlayer2Difficulty.Items[player2DifficultyIndex];
             }
         }
 

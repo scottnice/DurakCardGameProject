@@ -24,6 +24,17 @@ namespace Durak
         internal BasicRules(int numberOfPlayers = MIN_PLAYERS, Deck.DeckSize deckSize = Deck.DeckSize.FIFTY_TWO,
                         ComputerPlayer.AIDifficulty difficulty = ComputerPlayer.AIDifficulty.Basic, bool isAllAI = false)
                             : base ( numberOfPlayers,  deckSize, difficulty, isAllAI){}
+
+        /// <summary>
+        /// Constructor with per-player AI difficulties
+        /// </summary>
+        /// <param name="numberOfPlayers"></param>
+        /// <param name="deckSize"></param>
+        /// <param name="difficulties"></param>
+        /// <param name="isAllAI"></param>
+        internal BasicRules(int numberOfPlayers, Deck.DeckSize deckSize,
+                        ComputerPlayer.AIDifficulty[] difficulties, bool isAllAI)
+                            : base(numberOfPlayers, deckSize, difficulties, isAllAI) { }
         #endregion
 
         #region "Methods"

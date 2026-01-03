@@ -33,10 +33,14 @@
             this.cbxRules = new System.Windows.Forms.ComboBox();
             this.cbxDeckSize = new System.Windows.Forms.ComboBox();
             this.cbxAIDifficulty = new System.Windows.Forms.ComboBox();
+            this.cbxPlayer1Difficulty = new System.Windows.Forms.ComboBox();
+            this.cbxPlayer2Difficulty = new System.Windows.Forms.ComboBox();
             this.lblPlayers = new System.Windows.Forms.Label();
             this.lblRules = new System.Windows.Forms.Label();
             this.lblDeckSize = new System.Windows.Forms.Label();
             this.lblDifficulty = new System.Windows.Forms.Label();
+            this.lblPlayer1Difficulty = new System.Windows.Forms.Label();
+            this.lblPlayer2Difficulty = new System.Windows.Forms.Label();
             this.lblGameOptions = new System.Windows.Forms.Label();
             this.btnSaveAndQuit = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -88,8 +92,8 @@
             this.OptionsMenuTips.SetToolTip(this.cbxDeckSize, "Select how many cards you wish to play with.");
             // 
             // cbxAIDifficulty
-            // 
-            this.cbxAIDifficulty.Enabled = false;
+            //
+            this.cbxAIDifficulty.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxAIDifficulty.FormattingEnabled = true;
             this.cbxAIDifficulty.Items.AddRange(new object[] {
             Durak.ComputerPlayer.AIDifficulty.Basic,
@@ -99,8 +103,38 @@
             this.cbxAIDifficulty.Name = "cbxAIDifficulty";
             this.cbxAIDifficulty.Size = new System.Drawing.Size(115, 21);
             this.cbxAIDifficulty.TabIndex = 3;
-            this.OptionsMenuTips.SetToolTip(this.cbxAIDifficulty, "Buy full version to access feature.");
-            // 
+            this.OptionsMenuTips.SetToolTip(this.cbxAIDifficulty, "Select the AI difficulty level.");
+            //
+            // cbxPlayer1Difficulty
+            //
+            this.cbxPlayer1Difficulty.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxPlayer1Difficulty.FormattingEnabled = true;
+            this.cbxPlayer1Difficulty.Items.AddRange(new object[] {
+            Durak.ComputerPlayer.AIDifficulty.Basic,
+            Durak.ComputerPlayer.AIDifficulty.Advanced,
+            Durak.ComputerPlayer.AIDifficulty.Cheater});
+            this.cbxPlayer1Difficulty.Location = new System.Drawing.Point(78, 156);
+            this.cbxPlayer1Difficulty.Name = "cbxPlayer1Difficulty";
+            this.cbxPlayer1Difficulty.Size = new System.Drawing.Size(115, 21);
+            this.cbxPlayer1Difficulty.TabIndex = 12;
+            this.cbxPlayer1Difficulty.Visible = false;
+            this.OptionsMenuTips.SetToolTip(this.cbxPlayer1Difficulty, "Select AI difficulty for Player 1.");
+            //
+            // cbxPlayer2Difficulty
+            //
+            this.cbxPlayer2Difficulty.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxPlayer2Difficulty.FormattingEnabled = true;
+            this.cbxPlayer2Difficulty.Items.AddRange(new object[] {
+            Durak.ComputerPlayer.AIDifficulty.Basic,
+            Durak.ComputerPlayer.AIDifficulty.Advanced,
+            Durak.ComputerPlayer.AIDifficulty.Cheater});
+            this.cbxPlayer2Difficulty.Location = new System.Drawing.Point(78, 183);
+            this.cbxPlayer2Difficulty.Name = "cbxPlayer2Difficulty";
+            this.cbxPlayer2Difficulty.Size = new System.Drawing.Size(115, 21);
+            this.cbxPlayer2Difficulty.TabIndex = 13;
+            this.cbxPlayer2Difficulty.Visible = false;
+            this.OptionsMenuTips.SetToolTip(this.cbxPlayer2Difficulty, "Select AI difficulty for Player 2.");
+            //
             // lblPlayers
             // 
             this.lblPlayers.AutoSize = true;
@@ -129,14 +163,34 @@
             this.lblDeckSize.Text = "Deck Size";
             // 
             // lblDifficulty
-            // 
+            //
             this.lblDifficulty.AutoSize = true;
             this.lblDifficulty.Location = new System.Drawing.Point(12, 159);
             this.lblDifficulty.Name = "lblDifficulty";
             this.lblDifficulty.Size = new System.Drawing.Size(60, 13);
             this.lblDifficulty.TabIndex = 7;
             this.lblDifficulty.Text = "AI Difficulty";
-            // 
+            //
+            // lblPlayer1Difficulty
+            //
+            this.lblPlayer1Difficulty.AutoSize = true;
+            this.lblPlayer1Difficulty.Location = new System.Drawing.Point(12, 159);
+            this.lblPlayer1Difficulty.Name = "lblPlayer1Difficulty";
+            this.lblPlayer1Difficulty.Size = new System.Drawing.Size(50, 13);
+            this.lblPlayer1Difficulty.TabIndex = 14;
+            this.lblPlayer1Difficulty.Text = "Player 1";
+            this.lblPlayer1Difficulty.Visible = false;
+            //
+            // lblPlayer2Difficulty
+            //
+            this.lblPlayer2Difficulty.AutoSize = true;
+            this.lblPlayer2Difficulty.Location = new System.Drawing.Point(12, 186);
+            this.lblPlayer2Difficulty.Name = "lblPlayer2Difficulty";
+            this.lblPlayer2Difficulty.Size = new System.Drawing.Size(50, 13);
+            this.lblPlayer2Difficulty.TabIndex = 15;
+            this.lblPlayer2Difficulty.Text = "Player 2";
+            this.lblPlayer2Difficulty.Visible = false;
+            //
             // lblGameOptions
             // 
             this.lblGameOptions.AutoSize = true;
@@ -147,8 +201,8 @@
             this.lblGameOptions.Text = "Game Options";
             // 
             // btnSaveAndQuit
-            // 
-            this.btnSaveAndQuit.Location = new System.Drawing.Point(12, 188);
+            //
+            this.btnSaveAndQuit.Location = new System.Drawing.Point(12, 215);
             this.btnSaveAndQuit.Name = "btnSaveAndQuit";
             this.btnSaveAndQuit.Size = new System.Drawing.Size(84, 21);
             this.btnSaveAndQuit.TabIndex = 9;
@@ -156,10 +210,10 @@
             this.OptionsMenuTips.SetToolTip(this.btnSaveAndQuit, "Saves options and exits.");
             this.btnSaveAndQuit.UseVisualStyleBackColor = true;
             this.btnSaveAndQuit.Click += new System.EventHandler(this.btnSaveAndQuit_Click);
-            // 
+            //
             // btnCancel
-            // 
-            this.btnCancel.Location = new System.Drawing.Point(109, 188);
+            //
+            this.btnCancel.Location = new System.Drawing.Point(109, 215);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(84, 21);
             this.btnCancel.TabIndex = 10;
@@ -169,7 +223,7 @@
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // cboIsAiGame
-            // 
+            //
             this.cboIsAiGame.AutoSize = true;
             this.cboIsAiGame.Location = new System.Drawing.Point(125, 25);
             this.cboIsAiGame.Name = "cboIsAiGame";
@@ -178,12 +232,17 @@
             this.cboIsAiGame.Text = "AI Game";
             this.OptionsMenuTips.SetToolTip(this.cboIsAiGame, "Watch a game played by computer players.");
             this.cboIsAiGame.UseVisualStyleBackColor = true;
+            this.cboIsAiGame.CheckedChanged += new System.EventHandler(this.cboIsAiGame_CheckedChanged);
             // 
             // OptionsMenu
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(207, 221);
+            this.ClientSize = new System.Drawing.Size(207, 248);
+            this.Controls.Add(this.lblPlayer2Difficulty);
+            this.Controls.Add(this.lblPlayer1Difficulty);
+            this.Controls.Add(this.cbxPlayer2Difficulty);
+            this.Controls.Add(this.cbxPlayer1Difficulty);
             this.Controls.Add(this.cboIsAiGame);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSaveAndQuit);
@@ -214,10 +273,14 @@
         private System.Windows.Forms.ComboBox cbxRules;
         private System.Windows.Forms.ComboBox cbxDeckSize;
         private System.Windows.Forms.ComboBox cbxAIDifficulty;
+        private System.Windows.Forms.ComboBox cbxPlayer1Difficulty;
+        private System.Windows.Forms.ComboBox cbxPlayer2Difficulty;
         private System.Windows.Forms.Label lblPlayers;
         private System.Windows.Forms.Label lblRules;
         private System.Windows.Forms.Label lblDeckSize;
         private System.Windows.Forms.Label lblDifficulty;
+        private System.Windows.Forms.Label lblPlayer1Difficulty;
+        private System.Windows.Forms.Label lblPlayer2Difficulty;
         private System.Windows.Forms.Label lblGameOptions;
         private System.Windows.Forms.Button btnSaveAndQuit;
         private System.Windows.Forms.Button btnCancel;

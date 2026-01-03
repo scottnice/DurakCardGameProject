@@ -23,7 +23,7 @@ namespace Durak
         const int CARD_DRAW_OFFSET = 25;
 
         // get the image resource from the project
-        private static Bitmap cardImageFile = new Bitmap(Durak.Properties.Resources.CardImages);
+        private static Bitmap cardImageFile = new Bitmap("CardImages.png");
         
         private Point deckLocation;
         // the players seating positions for a max of 6 players
@@ -266,13 +266,23 @@ namespace Durak
                 Card playerCard = myGame.myPlayers[0].myHand[i];
 
                 // set where the card needs to go, because this happens each time the card gets closer
-                // to the end location it behaves like a quadratic function slowing the card down as it 
+                // to the end location it behaves like a quadratic function slowing the card down as it
                 // approaches the final location giving the animations a cool effect
                 myDrawnCards[(int)playerCard.getSuit, (int)playerCard.getRank].MoveCard(mySeats[0].X + i * CARD_DRAW_OFFSET, mySeats[0].Y);
 
                 // draw the image of the card at the current location of the card
-                gfx.DrawImage(myDrawnCards[(int)playerCard.getSuit, (int)playerCard.getRank].cardImage, 
+                gfx.DrawImage(myDrawnCards[(int)playerCard.getSuit, (int)playerCard.getRank].cardImage,
                                 myDrawnCards[(int)playerCard.getSuit, (int)playerCard.getRank].getPoint());
+            }
+
+            // Draw player 0 name above their hand (they are at bottom of screen)
+            if (myGame.myPlayers[0].GetCardCount > 0)
+            {
+                using (Font font = new Font("Arial", 12, FontStyle.Bold))
+                using (SolidBrush brush = new SolidBrush(Color.Black))
+                {
+                    gfx.DrawString(myGame.myPlayers[0].name, font, brush, mySeats[0].X, mySeats[0].Y - 25);
+                }
             }
 
             // then the computer ones
@@ -287,12 +297,22 @@ namespace Durak
 
                     // Draw face up if its an all AIGAME
                     if(myGame.IsAiGame)
-                        gfx.DrawImage(myDrawnCards[(int)currentCard.getSuit, (int)currentCard.getRank].cardImage, 
+                        gfx.DrawImage(myDrawnCards[(int)currentCard.getSuit, (int)currentCard.getRank].cardImage,
                             myDrawnCards[(int)currentCard.getSuit, (int)currentCard.getRank].getPoint());
                     else // if a human game draw the computers cards face down
                         gfx.DrawImage(myFlippedCardImage,
                             myDrawnCards[(int)currentCard.getSuit, (int)currentCard.getRank].getPoint());
 
+                }
+
+                // Draw player name below their hand (they are at top of screen)
+                if (myGame.myPlayers[i].GetCardCount > 0)
+                {
+                    using (Font font = new Font("Arial", 12, FontStyle.Bold))
+                    using (SolidBrush brush = new SolidBrush(Color.Black))
+                    {
+                        gfx.DrawString(myGame.myPlayers[i].name, font, brush, p.X, p.Y + CARD_HEIGHT + 5);
+                    }
                 }
             }
 
